@@ -9,7 +9,10 @@ import {
 
 import type { Route } from "./+types/root";
 
-import { CssBaseline } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
+import PageContainer from "./Components/PageContainer";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 
 export const links: Route.LinksFunction = () => [
   {
@@ -39,9 +42,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body style={{ backgroundColor: '#FEFDF9'}}>
         <CssBaseline />
-        {children}
+        <Header />
+        <PageContainer>
+          {children}
+        </PageContainer>
+        <Footer />
         <ScrollRestoration />
         <Scripts />
       </body>
