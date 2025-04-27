@@ -8,7 +8,8 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
-import "./app.css";
+
+import { CssBaseline } from "@mui/material";
 
 export const links: Route.LinksFunction = () => [
   {
@@ -39,6 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <CssBaseline />
         {children}
         <ScrollRestoration />
         <Scripts />
