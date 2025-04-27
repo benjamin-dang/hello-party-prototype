@@ -38,7 +38,7 @@ const Navigation = ({ routes }) => {
 const LoginButton = () => {
     return (
         <Grid justifySelf={'flex-end'} sx={{ marginLeft: 'auto' }}>
-            <Button variant="outlined" color="">
+            <Button variant="outlined" sx={{px: 4, color: 'black', borderColor: 'black', '&:hover': { backgroundColor: 'black', color: 'white' } }}>
                 Login
             </Button>
         </Grid>
@@ -50,12 +50,11 @@ const Header = () => {
     return (
         <>
             <AppBar position="sticky" elevation={0}>
-                <Container maxWidth='xl' disableGutters>
                     <Toolbar sx={{ backgroundColor: '#FEFDF9', color: '#000' }} >
                         <Grid container alignItems={'center'} width={'100%'} flexShrink={0} flexWrap={'nowrap'}>
                             <Box
                                 component='img'
-                                src='../../public/Logo-without-bg.png'
+                                src='Logo-without-bg.png'
                                 alt='Logo'
                                 sx={{
                                     height: '60px',
@@ -67,7 +66,6 @@ const Header = () => {
                             <LoginButton />
                         </Grid>
                     </Toolbar>
-                </Container>
             </AppBar>
         </>
     )
