@@ -14,8 +14,9 @@ const defaultContent = {
 const defaultGalaryCardContent = {
     img: 'public/decorating.png',
     heading: 'Dekor und Zubehör',
-    text: 'Pefekt für Geburtstage',
+    text: '\„You can\'t just eat good food. You\'ve got to talk about it too.\" Ich war so dankbar und happy gestern, als der Postbote mit der HelloFresh Box mit 3 leckeren Rezepten kam.',
     profileImg: 'public/profile-placeholder.png'
+
 }
 
 const defaultGalaryArray = [
@@ -39,6 +40,8 @@ const GalaryCard = ({ cardContent = defaultGalaryCardContent }) => {
             backgroundColor: '#FEFDF9',
             boxShadow: 'none',
             mt: 1.5,
+            mb: 0,
+            width: '340px'
         }}
         >
             <Box position={'relative'}>
@@ -82,8 +85,15 @@ const GalaryCard = ({ cardContent = defaultGalaryCardContent }) => {
                 </Grid>
 
             </Box>
-            <CardContent>
-
+            <CardContent sx={{
+                pt: 3,
+                pb: 0,
+                px: 0,
+                width: '100%',
+            }}>
+                <Typography gutterBottom variant="body2" component={'div'} fontSize={'14px'} textOverflow={'ellipsis'} m={0}>
+                    {cardContent.text}
+                </Typography>
             </CardContent>
 
         </Card>

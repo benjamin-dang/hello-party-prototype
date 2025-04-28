@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CustomButton from "../Components/CustomButton";
 import ContentWithGalery from "./Components/ContentWithGalery";
 import ContentWithInstaPosts from "./Components/ContentWithInstaPosts";
+import CallToActionBanner from "./Components/CallToActionBanner";
 
 const CoverText = {
     heading: 'Welcome to Our Website',
@@ -87,6 +88,7 @@ const HomeComponent = () => {
                 <ContentWithGalery />
             </Container>
             <ContentWithInstaPosts />
+            <CallToActionBanner/>
         </>
     )
 }
