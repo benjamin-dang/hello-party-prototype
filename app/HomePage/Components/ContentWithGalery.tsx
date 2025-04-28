@@ -3,7 +3,7 @@ import CustomButton from "../../Components/CustomButton"
 
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 
 
 const defaultContent = {
@@ -12,7 +12,7 @@ const defaultContent = {
 }
 
 const defaultGalaryCardContent = {
-    img: 'public/decorating.png',
+    img: '/decorating.png',
     heading: 'Dekor und Zubehör',
     text: 'Pefekt für Geburtstage',
 }
@@ -72,23 +72,29 @@ const GalaryCard = ({ cardContent = defaultGalaryCardContent }) => {
 
 const Galary = ({ galaryArray = defaultGalaryArray }) => {
 
-    const scrollContainerRef = useRef(null);
+    let scrollContainerRef = useRef(null);
 
     const scrollLeft = () => {
         if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft -= 262;
+            scrollContainerRef.current.scrollLeft -= 262; 
         }
     };
 
     const scrollRight = () => {
         if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft += 262;
+            scrollContainerRef.current.scrollLeft += 262; 
         }
     };
 
+    useEffect(() => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollLeft = 262; // Set initial scroll position
+        }
+    }, []);
+
     return (
         <Grid container direction={'row'} flexWrap={'nowrap'} justifyItems={'center'} alignItems={'center'}>
-            <Grid size={1} mb={6} mr={1} flexShrink={0}>
+            <Grid size={0.5} mb={6} mr={2} flexShrink={0}>
                 <IconButton
                     onClick={scrollLeft}
                     sx={{
@@ -102,12 +108,12 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                     <ArrowBackIcon />
                 </IconButton>
             </Grid>
-            <Grid size={10}
+            <Grid size={11}
                 container
                 direction="row"
                 wrap="nowrap"
                 sx={{
-                    overflowX: 'auto',
+                    overflowX: 'hidden',
                     gap: 2,
                     mb: 6,
                     scrollSnapType: 'x mandatory',
@@ -132,7 +138,7 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                 ))}
 
             </Grid>
-            <Grid size={1} mb={6} ml={1}>
+            <Grid size={0.5} mb={6} ml={2}>
                 <IconButton
                     onClick={scrollRight}
                     sx={{
