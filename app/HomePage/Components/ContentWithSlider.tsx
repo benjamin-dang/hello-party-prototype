@@ -10,9 +10,10 @@ const defaultCardContent =
 {
     heading: 'Event Boxen',
     text: 'Für jeden Anlass die passende Box, die du ganz einfach online bestellen kannst.',
-    imgSrc: 'https://images.unsplash.com/photo-1625552187571-7ee60ac43d2b?q=80&w=1819&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    imgSrc: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' :
+        'https://images.unsplash.com/photo-1625552187571-7ee60ac43d2b?q=80&w=1819&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     imgAlt: 'Event Boxen',
-    icon: '/gift.png',
+    icon: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '' : '/gift.png',
     iconAlt: 'Event Boxen Icon',
 }
 

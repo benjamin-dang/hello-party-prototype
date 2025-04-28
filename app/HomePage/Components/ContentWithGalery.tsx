@@ -6,14 +6,15 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useRef, useEffect } from "react";
 
 
+
 const defaultContent = {
     heading: 'Deine Box, für deinen Anlass personalisiert',
     subheading: 'Passnder Inhalt für jedes Event, damit du immer die richtige Wahl triffst',
 }
 
 const defaultGalaryCardContent = {
-    img: '/decorating.png',
-    heading: 'Dekor und Zubehör',
+    // img: '/decorating.png',
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/decorating.png',    heading: 'Dekor und Zubehör',
     text: 'Pefekt für Geburtstage',
 }
 
@@ -76,13 +77,13 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
 
     const scrollLeft = () => {
         if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft -= 262; 
+            scrollContainerRef.current.scrollLeft -= 262;
         }
     };
 
     const scrollRight = () => {
         if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft += 262; 
+            scrollContainerRef.current.scrollLeft += 262;
         }
     };
 
@@ -99,10 +100,10 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                     onClick={scrollLeft}
                     sx={{
                         backgroundColor: 'white',
-                        border: '1px solid black', 
-                        borderRadius: '50%', 
-                        width: 48, 
-                        height: 48, 
+                        border: '1px solid black',
+                        borderRadius: '50%',
+                        width: 48,
+                        height: 48,
                     }}
                 >
                     <ArrowBackIcon />
@@ -143,15 +144,15 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                     onClick={scrollRight}
                     sx={{
                         backgroundColor: 'white',
-                        border: '1px solid black', 
-                        borderRadius: '50%', 
-                        width: 48, 
-                        height: 48, 
+                        border: '1px solid black',
+                        borderRadius: '50%',
+                        width: 48,
+                        height: 48,
                     }}
                 >
-                        < ArrowForwardIcon />
+                    < ArrowForwardIcon />
                 </IconButton>
-        </Grid>
+            </Grid>
         </Grid >
     );
 };

@@ -200,7 +200,7 @@ const NavGridContainer = ({ gridContainerData = defaultGridContainerData }) => {
             </Grid>
             {gridContainerData.links.map((item, index) => {
                 return (
-                    <>
+                    <Box key={index}>
                         {item.type === 'link' ?
                             (
                                 <Grid my={'2px'} key={index}>
@@ -228,7 +228,7 @@ const NavGridContainer = ({ gridContainerData = defaultGridContainerData }) => {
                                 </Grid>
                             )
                         }
-                    </>
+                    </Box>
 
                 )
             })}

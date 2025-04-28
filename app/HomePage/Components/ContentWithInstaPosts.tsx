@@ -13,10 +13,11 @@ const defaultContent = {
 }
 
 const defaultGalaryCardContent = {
-    img: '/decorating.png',
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/decorating.png',   
     heading: 'Dekor und Zubehör',
     text: '\„You can\'t just eat good food. You\'ve got to talk about it too.\" Ich war so dankbar und happy gestern, als der Postbote mit der HelloFresh Box mit 3 leckeren Rezepten kam.',
-    profileImg: '/profile-placeholder.png'
+    profileImg: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/profile-placeholder.png' : '/profile-placeholder.png',   // no default img
+
 
 }
 
