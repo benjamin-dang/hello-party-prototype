@@ -12,10 +12,10 @@ const defaultContent = {
 }
 
 const defaultGalaryCardContent = {
-    img: 'public/decorating.png',
+    img: '/decorating.png',
     heading: 'Dekor und Zubehör',
     text: '\„You can\'t just eat good food. You\'ve got to talk about it too.\" Ich war so dankbar und happy gestern, als der Postbote mit der HelloFresh Box mit 3 leckeren Rezepten kam.',
-    profileImg: 'public/profile-placeholder.png'
+    profileImg: '/profile-placeholder.png'
 
 }
 

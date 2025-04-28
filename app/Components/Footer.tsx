@@ -1,23 +1,6 @@
 import { Box, Container, Grid, Typography, Button, IconButton } from "@mui/material";
 import { NavLink } from "react-router";
-import { fontWeight, styled } from "@mui/system";
-
-/* 
-
-Blogger/Influencer
-Affiliates
-Weihnachtsgeschenke für Mitarbeiter
-Mitarbeiterverpflegung
-Gutscheine für Unternehmen
-Marketingkooperationen
-
-Hilfe-Center
-Finde eine Antwort
-Verträge hier kündigen
-
-
-
-*/
+import { styled } from "@mui/system";
 
 const defaultNavLinkGrid = [
     {
@@ -207,7 +190,7 @@ const Footer = ({ navLinkGrid = defaultNavLinkGrid }) => {
             }}>
                 <Grid container spacing={3} justifyContent={'center'}>
                     {navLinkGrid.map((item, index) => (
-                        <NavGridContainer gridContainerData={navLinkGrid[index]} />
+                        <NavGridContainer key={index} gridContainerData={navLinkGrid[index]} />
                     ))}
                 </Grid>
             </Container>
