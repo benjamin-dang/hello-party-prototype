@@ -1,8 +1,11 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import ContentWithSlider from "./Components/ContentWithSlider";
 
+import { useEffect, useState } from "react";
+
 import CustomButton from "../Components/CustomButton";
 import ContentWithGalery from "./Components/ContentWithGalery";
+import ContentWithInstaPosts from "./Components/ContentWithInstaPosts";
 
 const CoverText = {
     heading: 'Welcome to Our Website',
@@ -11,7 +14,30 @@ const CoverText = {
     subtext2: 'Das Perfekte Geschenk für jeden Anlass',
     buttonText: 'Eventboxen ansehen',
 }
+
+const dynamicTextArray = [
+    'Some Text',
+    'Another Text',
+    'More Text',
+    'Even More Text',
+    'Last Text',
+]
+
+
+
+
 const HomeComponent = () => {
+
+    const [dynamicText, setDynamicText] = useState(dynamicTextArray[0]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [growing, setGrowing] = useState(false);
+
+
+    const changeDynamicText = () => {
+
+
+    }
+
     return (
         <>
             <Box sx={
@@ -40,7 +66,7 @@ const HomeComponent = () => {
                         {CoverText.heading}
                     </Typography>
                     <Typography variant="h2" fontWeight={'bold'} mt={0} sx={{ paddingTop: '-10px' }} gutterBottom>
-                        {CoverText.subheading}
+                        {dynamicText}
                     </Typography>
                     <Typography variant="h5" gutterBottom>
                         {CoverText.subtext1}
@@ -58,8 +84,9 @@ const HomeComponent = () => {
                 <ContentWithSlider />
             </Container>
             <Container maxWidth={'lg'}>
-                <ContentWithGalery/>
+                <ContentWithGalery />
             </Container>
+            <ContentWithInstaPosts />
         </>
     )
 }

@@ -15,6 +15,7 @@ const defaultGalaryCardContent = {
     img: 'public/decorating.png',
     heading: 'Dekor und Zubehör',
     text: 'Pefekt für Geburtstage',
+    profileImg: 'public/profile-placeholder.png'
 }
 
 const defaultGalaryArray = [
@@ -32,39 +33,58 @@ const defaultGalaryArray = [
 const GalaryCard = ({ cardContent = defaultGalaryCardContent }) => {
     return (
         <Card sx={{
-            position: 'relative',
             alignSelf: 'center',
             justifySelf: 'center',
-        }}>
-            <CardMedia
-                component={'img'}
-                image={cardContent.img}
-                alt={cardContent.heading}
-                sx={{
-                    objectFit: 'cover',
-                    width: 262,
-                    height: 315,
-                }}
-            />
+            height: 508,
+            backgroundColor: '#FEFDF9',
+            boxShadow: 'none',
+            mt: 1.5,
+        }}
+        >
+            <Box position={'relative'}>
+                <CardMedia
+                    component={'img'}
+                    image={cardContent.img}
+                    alt={cardContent.heading}
+                    sx={{
+                        objectFit: 'cover',
+                        width: 340,
+                        height: 340,
+                        borderRadius: '5px',
+                    }}
+                />
+                <Grid display={'flex'} direction={'column'}
+                    sx={{
+                        position: 'absolute',
+                        background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0))',
+                        top: 0,
+                        width: '100%',
+                        p: 2
 
-            <Box
-                sx={{
-                    position: 'absolute',
-                    bottom: 0,
-                    right: 0,
-                    left: 0,
-                    textAlign: 'left',
-                    background: 'linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0))',
-                    pb: 3,
-                    pl: 2,
-                }}>
-                <Typography gutterBottom variant="h6" component="div" fontWeight={'bold'} mb={0} color="white">
-                    {cardContent.heading}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" mt={0} sx={{ color: 'white' }} fontWeight={'bold'} fontSize={'16px'} >
-                    {cardContent.text}
-                </Typography>
+                    }}
+                >
+                    <Grid size={2} textAlign={'center'} position={'relative'}>
+                        <Box component={'img'}
+                            src="public/profile-placeholder.png"
+                            alt="Profile"
+                            sx={{
+                                height: '48px',
+                                width: '48px',
+                                objectFit: 'cover',
+                            }}
+                        />
+                    </Grid>
+                    <Grid size={9} alignContent={'center'} height={'48px'}>
+                        <Typography mb={0} pl={1.5} fontSize={'16px'} fontWeight={'bold'} color={'white'}>
+                            @someuser
+                        </Typography>
+                    </Grid>
+                </Grid>
+
             </Box>
+            <CardContent>
+
+            </CardContent>
 
         </Card>
     )
@@ -76,39 +96,42 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
 
     const scrollLeft = () => {
         if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft -= 262;
+            scrollContainerRef.current.scrollLeft -= 365;
         }
     };
 
     const scrollRight = () => {
         if (scrollContainerRef.current) {
-            scrollContainerRef.current.scrollLeft += 262;
+            scrollContainerRef.current.scrollLeft += 365;
         }
     };
 
     return (
-        <Grid container direction={'row'} flexWrap={'nowrap'} justifyItems={'center'} alignItems={'center'}>
-            <Grid size={1} mb={6} mr={1} flexShrink={0}>
+        <Grid container direction={'row'} flexWrap={'nowrap'} alignItems={'center'}
+        >
+            <Grid size={1.5} mb={6} mr={1} textAlign={'right'} alignSelf={'start'} pt={'146px'}
+            >
                 <IconButton
                     onClick={scrollLeft}
                     sx={{
                         backgroundColor: 'white',
-                        border: '1px solid black', 
-                        borderRadius: '50%', 
-                        width: 48, 
-                        height: 48, 
+                        border: '1px solid black',
+                        borderRadius: '50%',
+                        width: 48,
+                        height: 48,
                     }}
                 >
                     <ArrowBackIcon />
                 </IconButton>
             </Grid>
-            <Grid size={10}
+
+            <Grid size={9}
                 container
                 direction="row"
                 wrap="nowrap"
                 sx={{
                     overflowX: 'auto',
-                    gap: 2,
+                    gap: 2.5,
                     mb: 6,
                     scrollSnapType: 'x mandatory',
                     scrollBehavior: 'smooth',
@@ -116,7 +139,6 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                 }}
                 ref={scrollContainerRef}
             >
-
                 {galaryArray.map((cardContent, index) => (
                     <Grid
                         key={index}
@@ -130,43 +152,41 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                         <GalaryCard cardContent={cardContent} />
                     </Grid>
                 ))}
-
             </Grid>
-            <Grid size={1} mb={6} ml={1}>
+            <Grid size={1.5} mb={6} ml={1} textAlign={'left'} alignSelf={'start'} pt={'146px'}>
                 <IconButton
                     onClick={scrollRight}
                     sx={{
                         backgroundColor: 'white',
-                        border: '1px solid black', 
-                        borderRadius: '50%', 
-                        width: 48, 
-                        height: 48, 
+                        border: '1px solid black',
+                        borderRadius: '50%',
+                        width: 48,
+                        height: 48,
                     }}
                 >
-                        < ArrowForwardIcon />
+                    < ArrowForwardIcon />
                 </IconButton>
-        </Grid>
+            </Grid>
         </Grid >
     );
 };
 
-const ContentWithGalery = ({ content = defaultContent }) => {
+const ContentWithInstaPosts = ({ content = defaultContent }) => {
     return (
         <>
-            <Container sx={{ textAlign: 'center', mt: 18, mb: 10 }}>
+            <Container sx={{ textAlign: 'center', mt: 18, mb: 0 }}>
                 <Typography variant="h4" fontWeight={'bold'} mb={0} pb={0}>
                     {content.heading}
                 </Typography>
+            </Container>
+            <Container sx={{ textAlign: 'center' }}>
                 <Typography fontSize={'16px'} mt={3} mb={3}>
                     {content.subheading}
                 </Typography>
-                <Galary />
-                <CustomButton>
-                    Menü ansehen
-                </CustomButton>
             </Container>
+            <Galary />
         </>
     )
 }
 
-export default ContentWithGalery
+export default ContentWithInstaPosts
