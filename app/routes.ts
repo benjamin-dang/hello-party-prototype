@@ -1,9 +1,16 @@
-import { type RouteConfig, index, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, route, prefix } from "@react-router/dev/routes";
 
 export default [
     index("Pages/HomePage.tsx"),
-    route('account','Pages/AccountPage.tsx'),
+    route('account', 'Pages/AccountPage.tsx'),
     route('about-us', 'Pages/AboutUsPage.tsx'),
-    route('order', 'Pages/OrderPage.tsx'),
+
+
+    route('order', 'Pages/OrderPage.tsx', [
+        route('infos-zum-event', 'OrderPage/InfosZumEvent.tsx'),
+        route('deine-box', 'OrderPage/DeineBox.tsx'),
+        route('bestellung', 'OrderPage/Bestellung.tsx'),
+    ]
+    ),
 
 ] satisfies RouteConfig;

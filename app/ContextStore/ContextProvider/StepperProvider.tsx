@@ -13,6 +13,7 @@ const initialState = [
         label: 'Infos zum Event',
         checked: false,
         active: true,
+        url: '/order/infos-zum-event',
     },
 
     {
@@ -21,6 +22,7 @@ const initialState = [
         label: 'Deine Box',
         checked: false,
         active: false,
+        url: '/order/deine-box',
     },
 
     {
@@ -29,6 +31,7 @@ const initialState = [
         label: 'Bestellung',
         checked: false,
         active: false,
+        url: '/order/bestellung',
     }
 ]
 

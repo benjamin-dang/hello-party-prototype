@@ -1,11 +1,11 @@
 import { AppBar, Container, Grid, Toolbar, Box, Button, Step } from "@mui/material"
 
-import CustomStepper from "~/OrderPage/Components/CustomStepper"
+import CustomStepper from "~/Components/CustomStepper"
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
-import { NavLink, useLocation } from "react-router"
+import { NavLink, useLocation, useMatch } from "react-router"
 import { useState } from "react";
 
 import { useContext } from "react";
@@ -19,7 +19,7 @@ const routes = [
     },
     {
         name: 'Bestellen',
-        route: '/order',
+        route: '/order/infos-zum-event',
     },
     {
         name: 'Über Uns',
@@ -59,6 +59,7 @@ const LoginButton = () => {
 const Header = () => {
 
     const location = useLocation()
+    const isOrderRoute = useMatch('/order/*')
 
     const [activeStep, setActiveStep] = useState(1)
     const { stepperData } = useContext(StepperContext)
@@ -71,7 +72,7 @@ const Header = () => {
                         <NavLink to={'/'}>
                             <Box
                                 component='img'
-                                src='Logo-without-bg.png'
+                                src='/Logo-without-bg.png'
                                 alt='Logo'
                                 sx={{
                                     height: '60px',
@@ -80,8 +81,8 @@ const Header = () => {
                                 }}
                             />
                         </NavLink>
-                        {location.pathname === '/order' ? (
-                            <Container sx={{width: '80%'}} >
+                        {isOrderRoute ? (
+                            <Container sx={{ width: '80%' }} >
                                 <CustomStepper stepDataArray={stepperData} />
                             </Container>
                         ) : (

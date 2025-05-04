@@ -7,13 +7,14 @@ import CustomButton from "../Components/CustomButton";
 import ContentWithGalery from "./Components/ContentWithGalery";
 import ContentWithInstaPosts from "./Components/ContentWithInstaPosts";
 import CallToActionBanner from "./Components/CallToActionBanner";
+import { NavLink } from "react-router";
 
 const CoverText = {
     heading: 'Welcome to Our Website',
     subheading: 'Some Text',
     subtext1: 'Nachhaltige Inhalte & Verpackungen',
     subtext2: 'Das Perfekte Geschenk für jeden Anlass',
-    buttonText: 'Eventboxen ansehen',
+    buttonText: 'Eventboxe bestellen',
 }
 
 const dynamicTextArray = [
@@ -75,9 +76,11 @@ const HomeComponent = () => {
                     <Typography variant="h5" mb={5} gutterBottom>
                         {CoverText.subtext2}
                     </Typography>
-                    <CustomButton>
-                        {CoverText.buttonText}
-                    </CustomButton>
+                    <NavLink to={'/order/infos-zum-event'}>
+                        <CustomButton>
+                            {CoverText.buttonText}
+                        </CustomButton>
+                    </NavLink>
                 </Container>
 
             </Box>
@@ -88,7 +91,7 @@ const HomeComponent = () => {
                 <ContentWithGalery />
             </Container>
             <ContentWithInstaPosts />
-            <CallToActionBanner/>
+            <CallToActionBanner />
         </>
     )
 }

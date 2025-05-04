@@ -128,25 +128,25 @@ const defaultNavLinkGrid = [
             {
                 type: 'logo',
                 name: 'mastercard',
-                url: 'mastercard.svg'
+                url: '/mastercard.svg'
             },
             {
 
                 type: 'logo',
                 name: 'visa',
-                url: 'visa.svg'
+                url: '/visa.svg'
             },
             {
 
                 type: 'logo',
                 name: 'amex',
-                url: 'amex.svg'
+                url: '/amex.svg'
             },
             {
 
                 type: 'logo',
                 name: 'paypal',
-                url: 'paypal.png'
+                url: '/paypal.png'
             },
         ]
     },
@@ -281,7 +281,7 @@ const Footer = ({ navLinkGrid = defaultNavLinkGrid }) => {
                         <Grid >
                             <Box
                                 component={'img'}
-                                src="facebook.svg"
+                                src="/facebook.svg"
                                 alt="Facebook"
                                 width={'25px'}
                                 height={'25px'}
@@ -295,7 +295,7 @@ const Footer = ({ navLinkGrid = defaultNavLinkGrid }) => {
                         <Grid>
                             <Box
                                 component={'img'}
-                                src="instagram.svg"
+                                src="/instagram.svg"
                                 alt="Facebook"
                                 width={'25px'}
                                 height={'25px'}

@@ -7,9 +7,18 @@ const CustomButton = ({ option, onClick }) => {
 
 
     return (
-        <Button onClick={() => handleClick(option, stateFunction)} sx={{
-            bgcolor: option.selected ? 'primary.main' : 'transparent', color: option.selected ? 'white' : 'black', textTransform: 'none'
-        }}>
+        <Button onClick={() => handleClick(option, stateFunction)} sx={
+            {
+                borderColor: '#FBF1E1',
+                bgcolor: option.selected ? '#FBF1E1' : 'transparent',
+                color: option.selected ? 'black' : 'black',
+                textTransform: 'none',
+                fontWeight: option.selected ? 'bold' : 'normal',
+                '&:hover': {
+                    fontWeight: 'bold',
+                }
+            }
+        }>
             {option.label}
         </Button>
     )
@@ -35,7 +44,7 @@ const defaulOptions = [
 const PersonSelectionButtonGrid = ({ options = defaulOptions, onClick }) => {
 
     return (
-        <ButtonGroup fullWidth={true} variant="outlined" size="large" color="primary">
+        <ButtonGroup fullWidth={true} variant="outlined" size="large">
             {options.map((option, index) => (
                 <CustomButton key={index} option={option} onClick={onClick} />
             ))}
