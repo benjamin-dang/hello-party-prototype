@@ -253,7 +253,7 @@ const Footer = ({ navLinkGrid = defaultNavLinkGrid }) => {
             }}>
                 <Grid container justifyContent={'space-between'} alignItems={'center'}>
                     <Grid container spacing={4}>
-                        <Typography variant="body2" fontSize={'14px'} fontWeight={'bold'}>© HelloFresh 2025</Typography>
+                        <Typography variant="body2" fontSize={'14px'} fontWeight={'bold'}>© HelloParty 2025</Typography>
                         <NavLink to={''} style={{
                             color: 'black',
                         }}>

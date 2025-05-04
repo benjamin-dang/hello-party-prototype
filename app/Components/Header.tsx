@@ -1,6 +1,16 @@
-import { AppBar, Container, Grid, Toolbar, Box, Button } from "@mui/material"
+import { AppBar, Container, Grid, Toolbar, Box, Button, Step } from "@mui/material"
 
-import { NavLink } from "react-router"
+import CustomStepper from "~/OrderPage/Components/CustomStepper"
+import CelebrationIcon from '@mui/icons-material/Celebration';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+
+import { NavLink, useLocation } from "react-router"
+import { useState } from "react";
+
+import { useContext } from "react";
+import { StepperContext } from "~/ContextStore/ContextProvider/StepperProvider";
+import { STEPPER_ACTIONS } from "~/ContextStore/Reducers/StepperReducer";
 
 const routes = [
     {
@@ -18,8 +28,8 @@ const routes = [
     },
 ]
 
-const Navigation = ({ routes }) => {
 
+const Navigation = ({ routes }) => {
     return (
         <Grid container flexWrap={'nowrap'}>
             {routes.map((route, index) => (
@@ -37,21 +47,28 @@ const Navigation = ({ routes }) => {
 
 const LoginButton = () => {
     return (
-        <Grid justifySelf={'flex-end'} sx={{ marginLeft: 'auto' }}>
-            <Button variant="outlined" sx={{px: 4, color: 'black', borderColor: 'black', '&:hover': { backgroundColor: 'black', color: 'white' } }}>
+        <Grid justifySelf={'flex-end'} sx={{ marginLeft: 'auto' }} >
+            <Button variant="outlined" sx={{ px: 4, color: 'black', borderColor: 'black', '&:hover': { backgroundColor: 'black', color: 'white' } }}>
                 Login
             </Button>
         </Grid>
     )
 }
 
+
 const Header = () => {
+
+    const location = useLocation()
+
+    const [activeStep, setActiveStep] = useState(1)
+    const { stepperData } = useContext(StepperContext)
 
     return (
         <>
             <AppBar position="sticky" elevation={0}>
-                    <Toolbar sx={{ backgroundColor: '#FEFDF9', color: '#000' }} >
-                        <Grid container alignItems={'center'} width={'100%'} flexShrink={0} flexWrap={'nowrap'}>
+                <Toolbar sx={{ backgroundColor: '#FEFDF9', color: '#000' }} >
+                    <Grid container alignItems={'center'} width={'100%'} flexShrink={0} flexWrap={'nowrap'} >
+                        <NavLink to={'/'}>
                             <Box
                                 component='img'
                                 src='Logo-without-bg.png'
@@ -62,10 +79,17 @@ const Header = () => {
                                     objectFit: 'cover',
                                 }}
                             />
+                        </NavLink>
+                        {location.pathname === '/order' ? (
+                            <Container sx={{width: '80%'}} >
+                                <CustomStepper stepDataArray={stepperData} />
+                            </Container>
+                        ) : (
                             <Navigation routes={routes} />
-                            <LoginButton />
-                        </Grid>
-                    </Toolbar>
+                        )}
+                        <LoginButton />
+                    </Grid>
+                </Toolbar>
             </AppBar>
         </>
     )

@@ -9,10 +9,11 @@ import {
 
 import type { Route } from "./+types/root";
 
-import { Box, CssBaseline } from "@mui/material";
+import { Box, CssBaseline, Container } from "@mui/material";
 import PageContainer from "./Components/PageContainer";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
+import StepperProvider from "./ContextStore/ContextProvider/StepperProvider";
 
 export const links: Route.LinksFunction = () => [
   {
@@ -42,13 +43,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body style={{ backgroundColor: '#FEFDF9'}}>
-        <CssBaseline />
-        <Header />
-        <PageContainer>
-          {children}
-        </PageContainer>
-        <Footer />
+      <body style={{ backgroundColor: '#FEFDF9' }}>
+        <StepperProvider>
+          <CssBaseline />
+          <Header />
+          <PageContainer>
+            {children}
+          </PageContainer>
+          <Footer />
+        </StepperProvider>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -78,13 +81,16 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
+      <Container>
+        <h1>{message}</h1>
+        <p>{details}</p>
+        {stack && (
+          <pre className="w-full p-4 overflow-x-auto">
+            <code>{stack}</code>
+          </pre>
+        )}
+      </Container>
+
     </main>
   );
 }

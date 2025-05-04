@@ -19,13 +19,12 @@ const CallToActionBanner = ({ actionData = defaultActionData }) => {
                 justifyItems: 'center',
                 alignItems: 'center',
                 textAlign: 'center',
-
             }}>
-                <Typography variant="h4" fontWeight={'bold'} my={5} sx={{
-                }}>
+                <Typography variant="h4" fontWeight={'bold'} my={5}>
                     {actionData.heading}
                 </Typography>
                 <Typography variant="h6" my={3} sx={{
+                    textAlign: 'center',
                 }}>
                     {actionData.text}
                 </Typography>

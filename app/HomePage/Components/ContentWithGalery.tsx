@@ -95,7 +95,7 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
 
     return (
         <Grid container direction={'row'} flexWrap={'nowrap'} justifyItems={'center'} alignItems={'center'}>
-            <Grid size={0.5} mb={6} mr={2} flexShrink={0}>
+            <Grid size={0.5} mb={6} >
                 <IconButton
                     onClick={scrollLeft}
                     sx={{
@@ -120,6 +120,7 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                     scrollSnapType: 'x mandatory',
                     scrollBehavior: 'smooth',
                     '&::-webkit-scrollbar': { display: 'none' },
+                    mx: 2,
                 }}
                 ref={scrollContainerRef}
             >
@@ -139,7 +140,7 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
                 ))}
 
             </Grid>
-            <Grid size={0.5} mb={6} ml={2}>
+            <Grid size={0.5} mb={6}>
                 <IconButton
                     onClick={scrollRight}
                     sx={{
