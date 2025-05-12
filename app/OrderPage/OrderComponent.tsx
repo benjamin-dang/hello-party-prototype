@@ -18,8 +18,6 @@ const OrderComponent = () => {
 
     let nextStepUrl = currentStepData.url;
 
-    console.log('currentStepData', currentStepData);
-
     if (currentStepData.step + 1 >= stepperData.length) {
         console.log('No next step available');
     } else {

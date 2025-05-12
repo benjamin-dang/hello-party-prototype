@@ -13,11 +13,11 @@ const SelectionButtonGrid = ({ children }) => {
 
 const SelectionButton = ({ option, onClick, size = { xs: 6, sm: 4, md: 3, lg: 2.4, xl: 2.4 } }) => {
 
-    const { handleClick, stateFunction } = onClick;
+    const { handleClick } = onClick;
 
     return (
         <Grid size={{ ...size }} position={'relative'}>
-            <Button variant="contained" onClick={() => handleClick(option, stateFunction)} sx=
+            <Button variant="contained" onClick={() => handleClick(option)} sx=
                 {{
                     backgroundColor: option.selected ? '#FBF1E1' : 'transparent',
                     color: option.selected ? 'black' : 'black',

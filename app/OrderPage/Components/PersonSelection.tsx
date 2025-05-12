@@ -3,11 +3,11 @@ import { Container, Button, ButtonGroup, Box, Grid } from '@mui/material';
 const CustomButton = ({ option, onClick }) => {
 
 
-    const { handleClick, stateFunction } = onClick;
+    const { handleClick } = onClick;
 
 
     return (
-        <Button onClick={() => handleClick(option, stateFunction)} sx={
+        <Button onClick={() => handleClick(option)} sx={
             {
                 borderColor: '#FBF1E1',
                 bgcolor: option.selected ? '#FBF1E1' : 'transparent',

@@ -7,32 +7,71 @@ const SURVEY_ACTIONS = {
 }
 
 const initialSurveyState = {
-    eventType: null,
-    amountOfPeople: null,
-    eventLocation: null,
+    eventOptions:
+        [
+            { label: 'Event 1', selected: true, type: 'event-option' },
+            { label: 'Event 2', selected: false, type: 'event-option' },
+            { label: 'Event 3', selected: false, type: 'event-option' },
+            { label: 'Event 4', selected: false, type: 'event-option' },
+            { label: 'Event 5', selected: false, type: 'event-option' },
+            { label: 'Event 6', selected: false, type: 'event-option' },
+            { label: 'Event 7', selected: false, type: 'event-option' },
+            { label: 'Event 8', selected: false, type: 'event-option' },
+            { label: 'Event 9', selected: false, type: 'event-option' },
+            { label: 'Event 10', selected: false, type: 'event-option' },
+        ],
+
+    amountOfPeople: [
+        { label: '1', selected: true, type: 'people-option' },
+        { label: '2', selected: false, type: 'people-option' },
+        { label: '3', selected: false, type: 'people-option' },
+        { label: '4', selected: false, type: 'people-option' },
+    ],
+    eventLocation: [
+        { label: 'Drinnen', selected: false, type: 'location-option' },
+        { label: 'Draußen', selected: false, type: 'location-option' },
+        { label: 'Hybrid', selected: true, type: 'location-option' },
+    ],
     eventDate: null,
     eventTime: null,
 }
 
-
 const SurveyReducer = (state, action) => {
-    console.log('SURVEY_REDUCER', state, action)
+    console.log('SURVEY_REDUCER', state, action.payload)
 
     switch (action.type) {
         case SURVEY_ACTIONS.SET_EVENT_TYPE:
             return {
                 ...state,
-                eventType: action.payload,
+                eventOptions: [
+                    ...state.eventOptions.map((option) =>
+                        option.label === action.payload.clickedOption.label
+                            ? { ...option, selected: true }
+                            : { ...option, selected: false }
+                    ),
+                ],
             };
         case SURVEY_ACTIONS.SET_AMOUNT_OF_PEOPLE:
             return {
                 ...state,
-                amountOfPeople: action.payload,
+                amountOfPeople: [
+                    ...state.amountOfPeople.map((option) =>
+                        option.label === action.payload.clickedOption.label
+                            ? { ...option, selected: true }
+                            : { ...option, selected: false }
+                    ),
+                ],
             };
         case SURVEY_ACTIONS.SET_EVENT_LOCATION:
             return {
                 ...state,
-                eventLocation: action.payload,
+                eventLocation: [
+                    ...state.eventLocation.map((option) =>
+                        option.label === action.payload.clickedOption.label
+                            ? { ...option, selected: true }
+                            : { ...option, selected: false }
+                    ),
+                ],
             };
         case SURVEY_ACTIONS.SET_EVENT_DATE:
             return {
