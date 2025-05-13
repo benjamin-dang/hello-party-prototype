@@ -1,4 +1,4 @@
-import { Button, Container, Typography } from "@mui/material";
+import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import CallToActionBanner from "./Components/CallToActionBanner";
 import CustomStepper from "../Components/CustomStepper";
 import { SelectionPart, SelectionButton, SelectionButtonGrid } from "./Components/SelectionPart";
@@ -13,29 +13,24 @@ import { SurveyContext } from "../ContextStore/ContextProvider/SurveyProvider";
 
 const InfosZumEvent = () => {
     const { surveyData, dispatch } = useContext(SurveyContext);
-    
-    console.log('new render surveyData: ', surveyData);
-
 
     const generalOnClick = (option) => {
-        console.log('clicked type: ', option.type);
-
         if (option.type === 'event-option') {
             dispatch({
                 type: 'SET_EVENT_TYPE',
-                payload: { clickedOption: option},
+                payload: { clickedOption: option },
             });
         }
         if (option.type === 'people-option') {
             dispatch({
                 type: 'SET_AMOUNT_OF_PEOPLE',
-                payload: { clickedOption: option},
+                payload: { clickedOption: option },
             });
         }
         if (option.type === 'location-option') {
             dispatch({
                 type: 'SET_EVENT_LOCATION',
-                payload: { clickedOption: option},
+                payload: { clickedOption: option },
             });
         }
     }
@@ -72,8 +67,28 @@ const InfosZumEvent = () => {
                         <Typography variant="body2" fontSize={'16px'} fontWeight={'bold'} textAlign={'center'}>
                             Anzahl der Personen
                         </Typography>
-                    </PersonLeftColumn>
-                    <PersonRightColumn options={surveyData.amountOfPeople} onClick={{ handleClick: generalOnClick }} />
+
+                    </PersonLeftColumn> {/* <PersonRightColumn options={surveyData.amountOfPeople} onClick={{ handleClick: generalOnClick }} /> */}
+                    <Grid direction={'column'} size={7} >
+                        <TextField
+                            onChange={(e) => { 
+                                dispatch({
+                                    type: 'SET_AMOUNT_OF_PEOPLE',
+                                    payload: { clickedOption: e.target.value },
+                                });
+                            }}
+                            fullWidth
+                            id="outlined-number"
+                            label="Number"
+                            type="number"
+                            defaultValue={surveyData.amountOfPeople}
+                            slotProps={{
+                                inputLabel: {
+                                    shrink: true,
+                                },
+                            }}
+                        />                    </Grid>
+
                 </PersonSelectionRow>
 
                 <PersonSelectionRow>
@@ -82,7 +97,7 @@ const InfosZumEvent = () => {
                             Veranstaltungs Ort
                         </Typography>
                     </PersonLeftColumn>
-                    <PersonRightColumn options={surveyData.eventLocation} onClick={{ handleClick: generalOnClick}} />
+                    <PersonRightColumn options={surveyData.eventLocation} onClick={{ handleClick: generalOnClick }} />
                 </PersonSelectionRow>
             </PersonSelection >
         </>

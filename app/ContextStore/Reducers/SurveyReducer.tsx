@@ -1,3 +1,4 @@
+
 const SURVEY_ACTIONS = {
     SET_EVENT_TYPE: 'SET_EVENT_TYPE',
     SET_AMOUNT_OF_PEOPLE: 'SET_AMOUNT_OF_PEOPLE',
@@ -21,12 +22,15 @@ const initialSurveyState = {
             { label: 'Event 10', selected: false, type: 'event-option' },
         ],
 
-    amountOfPeople: [
+    amountOfPeople: 4,
+    /*
+    [
         { label: '1', selected: true, type: 'people-option' },
         { label: '2', selected: false, type: 'people-option' },
         { label: '3', selected: false, type: 'people-option' },
         { label: '4', selected: false, type: 'people-option' },
     ],
+    */
     eventLocation: [
         { label: 'Drinnen', selected: false, type: 'location-option' },
         { label: 'Draußen', selected: false, type: 'location-option' },
@@ -54,13 +58,16 @@ const SurveyReducer = (state, action) => {
         case SURVEY_ACTIONS.SET_AMOUNT_OF_PEOPLE:
             return {
                 ...state,
+                amountOfPeople: action.payload.clickedOption
+                /*
                 amountOfPeople: [
                     ...state.amountOfPeople.map((option) =>
                         option.label === action.payload.clickedOption.label
                             ? { ...option, selected: true }
                             : { ...option, selected: false }
-                    ),
-                ],
+                        ),
+                    ],
+                */
             };
         case SURVEY_ACTIONS.SET_EVENT_LOCATION:
             return {
