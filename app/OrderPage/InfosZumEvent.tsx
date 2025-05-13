@@ -71,7 +71,7 @@ const InfosZumEvent = () => {
                     </PersonLeftColumn> {/* <PersonRightColumn options={surveyData.amountOfPeople} onClick={{ handleClick: generalOnClick }} /> */}
                     <Grid direction={'column'} size={7} >
                         <TextField
-                            onChange={(e) => { 
+                            onChange={(e) => {
                                 dispatch({
                                     type: 'SET_AMOUNT_OF_PEOPLE',
                                     payload: { clickedOption: e.target.value },
@@ -87,7 +87,8 @@ const InfosZumEvent = () => {
                                     shrink: true,
                                 },
                             }}
-                        />                    </Grid>
+                        />
+                    </Grid>
 
                 </PersonSelectionRow>
 

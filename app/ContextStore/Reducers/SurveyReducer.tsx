@@ -89,7 +89,7 @@ const SurveyReducer = (state, action) => {
         case SURVEY_ACTIONS.SET_EVENT_BOX_SIZE:
             return {
                 ...state,
-                eventLocation: [
+                eventBoxSize: [
                     ...state.eventBoxSize.map((option) =>
                         option.label === action.payload.clickedOption.label
                             ? { ...option, selected: true }

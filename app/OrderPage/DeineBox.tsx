@@ -56,7 +56,7 @@ const DeineBox = () => {
 
                             />
                         </Grid>
-                        <Grid size={{ xs: 12, md: 6 }} py={1} my={0} display={'flex'} px={1} alignItems={'center'}>
+                        <Grid size={{ xs: 12, md: 6 }} py={1} my={0} display={'flex'} px={1} >
                             <Box
                                 component="div"
                                 sx={{
@@ -68,12 +68,71 @@ const DeineBox = () => {
                                 }}>
                                 <Grid container direction={'column'}>
                                     <Grid>
+                                        <Typography variant="h5" fontWeight={'bold'} gutterBottom>
+                                            Deine Bisherige Konfiguration
+                                        </Typography>
+                                        <Grid container direction={'column'}>
+                                            <Grid container>
+                                                <Grid size={6}>
+                                                    <Typography variant="body2" fontSize={'16px'} >
+                                                        Deine Veranstaltung:
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid size={6}>
+                                                    <Typography variant="body2" fontSize={'16px'} fontStyle={'italic'} >
+                                                        {surveyData.eventOptions.filter((option) => option.selected)[0].label}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+
+
+                                            <Grid container>
+                                                <Grid size={6}>
+                                                    <Typography variant="body2" fontSize={'16px'}  >
+                                                        Anzahl der Personen:
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid size={6}>
+                                                    <Typography variant="body2" fontSize={'16px'}  fontStyle={'italic'}  >
+                                                        {surveyData.amountOfPeople}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+
+                                            <Grid container>
+                                                <Grid size={6}>
+                                                    <Typography variant="body2" fontSize={'16px'}  >
+                                                        Veranstaltungs Ort:
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid size={6}>
+                                                    <Typography variant="body2" fontSize={'16px'} fontStyle={'italic'} >
+                                                        {surveyData.eventLocation.filter((option) => option.selected)[0].label}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+
+
+                                        </Grid>
+                                    </Grid>
+                                    <Grid>
+                                        <Typography variant="h5" fontWeight={'bold'}>
+                                            Noch Anmerkungen zu deiner Box?
+                                        </Typography>
+                                        <Typography variant="body2" fontSize={'16px'} my={2} gutterBottom>
+
+                                        </Typography>
+                                        <PersonRightColumn size={12} options={surveyData.eventBoxSize} onClick={{ handleClick: generalOnClick }} />
+                                    </Grid>
+                                    <Grid>
                                         <Typography variant="h5" fontWeight={'bold'}>
                                             Wie groß soll deine Box sein?
                                         </Typography>
-                                    </Grid>
+                                        <Typography variant="body2" fontSize={'16px'} my={2} gutterBottom>
 
-                                    <PersonRightColumn size={12} options={surveyData.eventBoxSize} onClick={{ handleClick: generalOnClick }} />
+                                        </Typography>
+                                        <PersonRightColumn size={12} options={surveyData.eventBoxSize} onClick={{ handleClick: generalOnClick }} />
+                                    </Grid>
                                 </Grid>
                             </Box>
                         </Grid>
