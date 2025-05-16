@@ -8,6 +8,8 @@ const SURVEY_ACTIONS = {
     SET_EVENT_BOX_WITH_CAKE: 'SET_EVENT_BOX_WITH_CAKE',
     SET_EVENT_ADDITIONAL_INFO: 'SET_EVENT_ADDITIONAL_INFO',
     SET_ADDITIONAL_BACKERY: 'SET_ADDITIONAL_BACKERY',
+    SET_ADDRESS: 'SET_ADDRESS',
+    SET_CONTACT: 'SET_CONTACT',
 }
 
 const initialSurveyState = {
@@ -138,6 +140,17 @@ const initialSurveyState = {
             ]
         },
     ],
+    address: {
+        vorname: "",
+        nachname: "",
+        strasse: "",
+        plz: "",
+        stadt: ""
+    },
+    contact: {
+        email: "",
+        telefon: ""
+    },
 }
 
 const SurveyReducer = (state, action) => {
@@ -227,6 +240,22 @@ const SurveyReducer = (state, action) => {
             return {
                 ...state,
                 eventTime: action.payload,
+            };
+        case SURVEY_ACTIONS.SET_ADDRESS:
+            return {
+                ...state,
+                address: {
+                    ...state.address,
+                    ...action.payload
+                }
+            };
+        case SURVEY_ACTIONS.SET_CONTACT:
+            return {
+                ...state,
+                contact: {
+                    ...state.contact,
+                    ...action.payload
+                }
             };
         default:
             return state;

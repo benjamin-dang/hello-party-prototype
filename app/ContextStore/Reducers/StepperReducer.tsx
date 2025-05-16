@@ -1,6 +1,8 @@
 export const STEPPER_ACTIONS = {
     COMPLETE_STEP: 'COMPLETE_STEP',
     GO_BACK: 'GO_BACK',
+    SET_ACTIVE_STEP: 'SET_ACTIVE_STEP',
+    CHECK_STEP: 'CHECK_STEP',
 }
 
 const StepperReducer = (state, action) => {
@@ -40,6 +42,17 @@ const StepperReducer = (state, action) => {
             return [
                 ...state
             ];
+        case STEPPER_ACTIONS.SET_ACTIVE_STEP:
+            return state.map((step, idx) => ({
+                ...step,
+                active: idx === action.payload.step
+            }));
+        case STEPPER_ACTIONS.CHECK_STEP:
+            return state.map((step, idx) =>
+                idx === action.payload.step
+                    ? { ...step, checked: true }
+                    : step
+            );
         default:
             return state;
     }

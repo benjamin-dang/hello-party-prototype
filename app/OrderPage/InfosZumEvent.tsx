@@ -7,12 +7,31 @@ import { PersonSelection, PersonLeftColumn, PersonRightColumn, PersonSelectionRo
 import { Outlet } from "react-router";
 import Disclaimer from "../Components/Disclaimer";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { SurveyContext } from "../ContextStore/ContextProvider/SurveyProvider";
+import { NavLink, useLocation } from "react-router";
+import CustomButton from "../Components/CustomButton";
+import { StepperContext } from "../ContextStore/ContextProvider/StepperProvider";
+import { STEPPER_ACTIONS } from "../ContextStore/Reducers/StepperReducer";
 
 const InfosZumEvent = () => {
     const { surveyData, dispatch } = useContext(SurveyContext);
+    const { stepperData, dispatch: stepperDispatch } = useContext(StepperContext);
+    const location = useLocation();
+    const currentStepData = stepperData.find(step => step.active);
+    const nextStepUrl = stepperData[currentStepData.step + 1]?.url || "/order/deine-box"; // fallback
+
+    useEffect(() => {
+        // Find the step that matches the current route
+        const matchingStep = stepperData.find(step => step.url === location.pathname);
+        if (matchingStep && !matchingStep.active) {
+            stepperDispatch({
+                type: STEPPER_ACTIONS.SET_ACTIVE_STEP,
+                payload: { step: matchingStep.step }
+            });
+        }
+    }, [location.pathname, stepperData, stepperDispatch]);
 
     const generalOnClick = (option) => {
         if (option.type === 'event-option') {
@@ -101,6 +120,27 @@ const InfosZumEvent = () => {
                     <PersonRightColumn options={surveyData.eventLocation} onClick={{ handleClick: generalOnClick }} />
                 </PersonSelectionRow>
             </PersonSelection >
+            <Container maxWidth='sm' sx={{ display: 'flex', mt: 4 }}>
+                <NavLink style={{ width: '100%' }} to={nextStepUrl}>
+                    <CustomButton
+                        sx={{
+                            '&:hover': {
+                                backgroundColor: 'transparent',
+                                color: 'black',
+                                border: '1px solid black',
+                                padding: '11px 23px',
+                            }
+                        }}
+                        fullWidth
+                        onClick={() => stepperDispatch({
+                            type: STEPPER_ACTIONS.COMPLETE_STEP,
+                            payload: { currentStepData: stepperData.filter((step) => step.active) },
+                        })}
+                    >
+                        Auswählen
+                    </CustomButton>
+                </NavLink>
+            </Container>
         </>
     );
 }

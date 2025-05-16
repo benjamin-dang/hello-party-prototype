@@ -1,7 +1,10 @@
 import { Box, Button, Card, CardMedia, Container, Grid, Typography, FormGroup, FormControlLabel, Switch, TextField, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider, Accordion, CardActionArea, Icon, IconButton } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { SurveyContext } from "../ContextStore/ContextProvider/SurveyProvider";
 import CustomButton from "~/Components/CustomButton";
+import { NavLink, useLocation } from "react-router";
+import { StepperContext } from "../ContextStore/ContextProvider/StepperProvider";
+import { STEPPER_ACTIONS } from "../ContextStore/Reducers/StepperReducer";
 
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -15,8 +18,22 @@ const cardContent =
 
 const DeineBox = () => {
     const { surveyData, dispatch } = useContext(SurveyContext);
+    const location = useLocation();
+    const { stepperData, dispatch: stepperDispatch } = useContext(StepperContext);
+    const currentStepData = stepperData.find(step => step.active);
+    const nextStepUrl = stepperData[currentStepData.step + 1]?.url || "/order/bestellung"; // fallback
 
     const [drawerOpen, setDrawerOpen] = useState(false);
+
+    useEffect(() => {
+        const matchingStep = stepperData.find(step => step.url === location.pathname);
+        if (matchingStep && !matchingStep.active) {
+            stepperDispatch({
+                type: STEPPER_ACTIONS.SET_ACTIVE_STEP,
+                payload: { step: matchingStep.step }
+            });
+        }
+    }, [location.pathname, stepperData, stepperDispatch]);
 
     const handleAdditionalInfo = (event) => {
         dispatch({
@@ -155,7 +172,27 @@ const DeineBox = () => {
                     Einfach und schnell, so wie es sein soll!
                 </Typography>
             </Container>
-
+            <Container maxWidth='sm' sx={{ display: 'flex', mt: 0 }}>
+                <NavLink style={{ width: '100%' }} to={nextStepUrl}>
+                    <CustomButton
+                        sx={{
+                            '&:hover': {
+                                backgroundColor: 'transparent',
+                                color: 'black',
+                                border: '1px solid black',
+                                padding: '11px 23px',
+                            }
+                        }}
+                        fullWidth
+                        onClick={() => stepperDispatch({
+                            type: STEPPER_ACTIONS.COMPLETE_STEP,
+                            payload: { currentStepData: stepperData.filter((step) => step.active) },
+                        })}
+                    >
+                        Auswählen
+                    </CustomButton>
+                </NavLink>
+            </Container>
         </>
     );
 }

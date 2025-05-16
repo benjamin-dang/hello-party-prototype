@@ -10,6 +10,7 @@ export default [
         route('infos-zum-event', 'OrderPage/InfosZumEvent.tsx'),
         route('deine-box', 'OrderPage/DeineBox.tsx'),
         route('bestellung', 'OrderPage/Bestellung.tsx'),
+        route('success', 'OrderPage/SuccessFullOrder.tsx')
     ]
     ),
 

@@ -1,23 +1,14 @@
-import { Button, Container, Typography, Grid, TextField, Paper, Divider, List, ListItem, ListItemText, Box } from "@mui/material";
-import { useState, useContext } from "react";
+import { Button, Container, Typography, Grid, TextField, Paper, Divider, List, ListItem, ListItemText, Box, CircularProgress } from "@mui/material";
+import { useState, useContext, useEffect } from "react";
 import { SurveyContext } from "../ContextStore/ContextProvider/SurveyProvider";
+import { useLocation, useNavigate } from "react-router";
+import { StepperContext } from "../ContextStore/ContextProvider/StepperProvider";
+import { STEPPER_ACTIONS } from "../ContextStore/Reducers/StepperReducer";
+import { SURVEY_ACTIONS } from "../ContextStore/Reducers/SurveyReducer";
 
 const Bestellung = () => {
-    // States für die Eingabefelder
-    const [address, setAddress] = useState({
-        vorname: "",
-        nachname: "",
-        strasse: "",
-        plz: "",
-        stadt: ""
-    });
-    const [contact, setContact] = useState({
-        email: "",
-        telefon: ""
-    });
-
-    // Survey-Daten aus Context holen
-    const { surveyData } = useContext(SurveyContext);
+    const { surveyData, dispatch } = useContext(SurveyContext);
+    const [loading, setLoading] = useState(false);
 
     // Auswahl aus surveyData aufbereiten
     const selectedEvent = surveyData.eventOptions?.find(opt => opt.selected)?.label || "-";
@@ -26,6 +17,35 @@ const Bestellung = () => {
     const showBackBox = surveyData.eventBoxWithCake?.find(opt => opt.label === "Ja")?.selected;
     const additionalInfo = surveyData.eventAdditionalInfo || "-";
     const eventLocation = surveyData.eventLocation?.find(opt => opt.selected)?.label || "-";
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { stepperData, dispatch: stepperDispatch } = useContext(StepperContext);
+
+    useEffect(() => {
+        const matchingStep = stepperData.find(step => step.url === location.pathname);
+        if (matchingStep && !matchingStep.active) {
+            stepperDispatch({
+                type: STEPPER_ACTIONS.SET_ACTIVE_STEP,
+                payload: { step: matchingStep.step }
+            });
+        }
+    }, [location.pathname, stepperData, stepperDispatch]);
+
+    const handleOrder = () => {
+        setLoading(true);
+        setTimeout(() => {
+            // Find the current step index
+            const currentStepIndex = stepperData.findIndex(step => step.url === location.pathname);
+            // Mark Bestellung as checked
+            stepperDispatch({
+                type: STEPPER_ACTIONS.CHECK_STEP,
+                payload: { step: currentStepIndex },
+            });
+            setLoading(false);
+            navigate("/order/success");
+        }, 3000);
+    };
 
     return (
         <Container maxWidth="xl" sx={{ my: 1, xs: 12 }}>
@@ -43,36 +63,51 @@ const Bestellung = () => {
                             label="Vorname"
                             fullWidth
                             margin="normal"
-                            value={address.vorname}
-                            onChange={e => setAddress({ ...address, vorname: e.target.value })}
+                            value={surveyData.address?.vorname || ""}
+                            onChange={e => dispatch({
+                                type: SURVEY_ACTIONS.SET_ADDRESS,
+                                payload: { vorname: e.target.value }
+                            })}
                         />
                         <TextField
                             label="Nachname"
                             fullWidth
                             margin="normal"
-                            value={address.nachname}
-                            onChange={e => setAddress({ ...address, nachname: e.target.value })}
+                            value={surveyData.address?.nachname || ""}
+                            onChange={e => dispatch({
+                                type: SURVEY_ACTIONS.SET_ADDRESS,
+                                payload: { nachname: e.target.value }
+                            })}
                         />
                         <TextField
                             label="Straße & Hausnummer"
                             fullWidth
                             margin="normal"
-                            value={address.strasse}
-                            onChange={e => setAddress({ ...address, strasse: e.target.value })}
+                            value={surveyData.address?.strasse || ""}
+                            onChange={e => dispatch({
+                                type: SURVEY_ACTIONS.SET_ADDRESS,
+                                payload: { strasse: e.target.value }
+                            })}
                         />
                         <TextField
                             label="PLZ"
                             fullWidth
                             margin="normal"
-                            value={address.plz}
-                            onChange={e => setAddress({ ...address, plz: e.target.value })}
+                            value={surveyData.address?.plz || ""}
+                            onChange={e => dispatch({
+                                type: SURVEY_ACTIONS.SET_ADDRESS,
+                                payload: { plz: e.target.value }
+                            })}
                         />
                         <TextField
                             label="Stadt"
                             fullWidth
                             margin="normal"
-                            value={address.stadt}
-                            onChange={e => setAddress({ ...address, stadt: e.target.value })}
+                            value={surveyData.address?.stadt || ""}
+                            onChange={e => dispatch({
+                                type: SURVEY_ACTIONS.SET_ADDRESS,
+                                payload: { stadt: e.target.value }
+                            })}
                         />
                         <Divider sx={{ my: 2 }} />
                         <Box sx={{ mb: 2 }}>
@@ -80,15 +115,21 @@ const Bestellung = () => {
                                 label="E-Mail"
                                 fullWidth
                                 margin="normal"
-                                value={contact.email}
-                                onChange={e => setContact({ ...contact, email: e.target.value })}
+                                value={surveyData.contact?.email || ""}
+                                onChange={e => dispatch({
+                                    type: SURVEY_ACTIONS.SET_CONTACT,
+                                    payload: { email: e.target.value }
+                                })}
                             />
                             <TextField
                                 label="Telefonnummer (optional)"
                                 fullWidth
                                 margin="normal"
-                                value={contact.telefon}
-                                onChange={e => setContact({ ...contact, telefon: e.target.value })}
+                                value={surveyData.contact?.telefon || ""}
+                                onChange={e => dispatch({
+                                    type: SURVEY_ACTIONS.SET_CONTACT,
+                                    payload: { telefon: e.target.value }
+                                })}
                             />
                         </Box>
                     </Paper>
@@ -126,9 +167,15 @@ const Bestellung = () => {
                             </ListItem>
                         </List>
                         <Divider sx={{ my: 2 }} />
-                        <Button variant="contained" color="primary" fullWidth>
-                            Jetzt bestellen
-                        </Button>
+                        {loading ? (
+                            <Box display="flex" justifyContent="center" alignItems="center" minHeight={56}>
+                                <CircularProgress />
+                            </Box>
+                        ) : (
+                            <Button variant="contained" color="primary" fullWidth onClick={handleOrder}>
+                                Jetzt bestellen
+                            </Button>
+                        )}
                     </Paper>
                 </Grid>
             </Grid>

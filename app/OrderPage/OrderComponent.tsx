@@ -27,29 +27,6 @@ const OrderComponent = () => {
     return (
         <>
             <Outlet />
-            <Container maxWidth='sm' sx={{ display: 'flex' }}>
-                <NavLink style={{ width: '100%' }} to={nextStepUrl}>
-                    <CustomButton sx={{
-                        '&:hover': {
-                            backgroundColor: 'transparent',
-                            color: 'black',
-                            border: '1px solid black',
-                            padding: '11px 23px',
-                        }
-                    }} fullWidth
-                        onClick={() => (
-                            dispatch({
-                                type: STEPPER_ACTIONS.COMPLETE_STEP,
-                                payload: {
-                                    currentStepData: stepperData.filter((step) => step.active)
-                                },
-                            })
-                        )}
-                    >
-                        Auswählen
-                    </CustomButton>
-                </NavLink>
-            </Container>
             <Disclaimer />
             <CallToActionBanner />
         </>
