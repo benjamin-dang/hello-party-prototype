@@ -16,7 +16,7 @@ const cardContent =
 const DeineBox = () => {
     const { surveyData, dispatch } = useContext(SurveyContext);
 
-    const [drawerOpen, setDrawerOpen] = useState(true);
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     const handleAdditionalInfo = (event) => {
         dispatch({
@@ -90,8 +90,7 @@ const DeineBox = () => {
                                         <FormGroup sx={{ mb: 2 }}>
                                             <FormControlLabel control={
                                                 <Switch
-                                                    checked={true} // need to change after testing - just delete plus eventBoxWithCake correction
-
+                                                    checked={surveyData.eventBoxWithCake[0].selected}
                                                     onChange={switchHanlder}
 
                                                 />
@@ -110,7 +109,7 @@ const DeineBox = () => {
                                                             padding: '11px 23px',
                                                         }
                                                     }} fullWidth>
-                                                    Back Box auswählen
+                                                    { (surveyData.additionalBackery.filter(item => item.selected).length > 0) ? 'Back Box Ändern ' : 'Back Box Auswählen' }
                                                 </CustomButton>
                                                 <React.Fragment>
                                                     <Drawer

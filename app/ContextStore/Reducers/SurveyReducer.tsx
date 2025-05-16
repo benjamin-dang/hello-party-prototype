@@ -45,8 +45,8 @@ const initialSurveyState = {
         { label: 'Groß', selected: false, type: 'box-size-option' },
     ],
     eventBoxWithCake: [
-        { label: 'Ja', selected: true, type: 'box-with-cake-option' },
-        { label: 'Nein', selected: false, type: 'box-with-cake-option' },
+        { label: 'Ja', selected: false, type: 'box-with-cake-option' },
+        { label: 'Nein', selected: true, type: 'box-with-cake-option' },
     ],
     eventDate: null,
     eventTime: null,
