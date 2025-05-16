@@ -61,9 +61,9 @@ const PersonLeftColumn = ({ children }) => {
     )
 }
 
-const PersonRightColumn = ({ options, onClick, size = 7 }) => {
+const PersonRightColumn = ({ options, onClick, size = 7, sx }) => {
     return (
-        <Grid direction={'column'} size={size} >
+        <Grid direction={'column'} size={size} sx={{ ...sx, }}>
             <PersonSelectionButtonGrid options={options} onClick={onClick} />
         </Grid>
     )
