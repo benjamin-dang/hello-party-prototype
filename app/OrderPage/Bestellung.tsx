@@ -1,14 +1,19 @@
-import { Button, Container, Typography, Grid, TextField, Paper, Divider, List, ListItem, ListItemText, Box, CircularProgress } from "@mui/material";
+import { Button, Container, Typography, Grid, TextField, Paper, Divider, List, ListItem, ListItemText, Box, CircularProgress, Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import { useState, useContext, useEffect } from "react";
 import { SurveyContext } from "../ContextStore/ContextProvider/SurveyProvider";
 import { useLocation, useNavigate } from "react-router";
 import { StepperContext } from "../ContextStore/ContextProvider/StepperProvider";
-import { STEPPER_ACTIONS } from "../ContextStore/Reducers/StepperReducer";
 import { SURVEY_ACTIONS } from "../ContextStore/Reducers/SurveyReducer";
+import { UserContext } from "../ContextStore/ContextProvider/UserProvider";
+import LoginComponent from "~/LoginPage/LoginComponent";
 
 const Bestellung = () => {
     const { surveyData, dispatch } = useContext(SurveyContext);
+    const { user } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
+    const [loginDialogOpen, setLoginDialogOpen] = useState(false);
+    const [postLoginLoader, setPostLoginLoader] = useState(false);
 
     // Auswahl aus surveyData aufbereiten
     const selectedEvent = surveyData.eventOptions?.find(opt => opt.selected)?.label || "-";
@@ -26,11 +31,22 @@ const Bestellung = () => {
         const matchingStep = stepperData.find(step => step.url === location.pathname);
         if (matchingStep && !matchingStep.active) {
             stepperDispatch({
-                type: STEPPER_ACTIONS.SET_ACTIVE_STEP,
+                type: "SET_ACTIVE_STEP",
                 payload: { step: matchingStep.step }
             });
         }
     }, [location.pathname, stepperData, stepperDispatch]);
+
+    // Watch for login in dialog
+    useEffect(() => {
+        if (user?.isLoggedIn && loginDialogOpen) {
+            setPostLoginLoader(true);
+            setTimeout(() => {
+                setPostLoginLoader(false);
+                setLoginDialogOpen(false);
+            }, 1200);
+        }
+    }, [user?.isLoggedIn, loginDialogOpen]);
 
     const handleOrder = () => {
         setLoading(true);
@@ -39,7 +55,7 @@ const Bestellung = () => {
             const currentStepIndex = stepperData.findIndex(step => step.url === location.pathname);
             // Mark Bestellung as checked
             stepperDispatch({
-                type: STEPPER_ACTIONS.CHECK_STEP,
+                type: "CHECK_STEP",
                 payload: { step: currentStepIndex },
             });
             setLoading(false);
@@ -172,10 +188,67 @@ const Bestellung = () => {
                                 <CircularProgress />
                             </Box>
                         ) : (
-                            <Button variant="contained" color="primary" fullWidth onClick={handleOrder}>
-                                Jetzt bestellen
-                            </Button>
+                            <>
+                                {user?.isLoggedIn ? (
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        fullWidth
+                                        onClick={handleOrder}
+                                    >
+                                        Jetzt bestellen
+                                    </Button>
+                                ) : (
+                                    <Box display="flex" flexDirection="column" gap={2}>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            fullWidth
+                                            onClick={handleOrder}
+                                        >
+                                            Als Gast bestellen
+                                        </Button>
+                                        <Button
+                                            variant="outlined"
+                                            color="primary"
+                                            fullWidth
+                                            onClick={() => setLoginDialogOpen(true)}
+                                        >
+                                            Jetzt bestellen und Konto anlegen
+                                        </Button>
+                                    </Box>
+                                )}
+                            </>
                         )}
+                        {/* Login/Register Dialog */}
+                        <Dialog open={loginDialogOpen} onClose={() => setLoginDialogOpen(false)} maxWidth="xs" fullWidth>
+                            <DialogTitle sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                Login oder Registrieren
+                                <IconButton onClick={() => setLoginDialogOpen(false)} size="small">
+                                    <CloseIcon />
+                                </IconButton>
+                            </DialogTitle>
+                            <DialogContent>
+                                {postLoginLoader ? (
+                                    <Box display="flex" flexDirection="column" alignItems="center" justifyContent="center" py={4}>
+                                        <CircularProgress />
+                                        <Typography mt={2}>Erfolgreich eingeloggt! Einen Moment...</Typography>
+                                    </Box>
+                                ) : (
+                                    <LoginComponent
+                                        hideRedirect
+                                        initialRegister={{
+                                            email: surveyData.contact?.email || "",
+                                            firstName: surveyData.address?.vorname || "",
+                                            lastName: surveyData.address?.nachname || "",
+                                        }}
+                                        initialLogin={{
+                                            email: surveyData.contact?.email || "",
+                                        }}
+                                    />
+                                )}
+                            </DialogContent>
+                        </Dialog>
                     </Paper>
                 </Grid>
             </Grid>

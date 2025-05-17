@@ -5,15 +5,23 @@ import { useNavigate } from "react-router";
 import { UserContext } from "~/ContextStore/ContextProvider/UserProvider"
 import { USER_ACTION } from "~/ContextStore/Reducers/UserReducer"
 
-const initialLogin = { email: "", password: "" };
-const initialRegister = { email: "", password: "", confirmPassword: "", firstName: "", lastName: "" };
-
-const LoginComponent = () => {
+const LoginComponent = ({
+    hideRedirect = false,
+    initialRegister = {},
+    initialLogin = {},
+}) => {
     const { user, userDispatch } = useContext(UserContext);
     const navigate = useNavigate();
     const [isRegister, setIsRegister] = useState(false);
-    const [loginData, setLoginData] = useState(initialLogin);
-    const [registerData, setRegisterData] = useState(initialRegister);
+    const [loginData, setLoginData] = useState({ email: "", password: "", ...initialLogin });
+    const [registerData, setRegisterData] = useState({
+        email: "",
+        password: "",
+        confirmPassword: "",
+        firstName: "",
+        lastName: "",
+        ...initialRegister,
+    });
     const [errors, setErrors] = useState({});
 
     const handleChange = (e, isReg = false) => {
@@ -45,7 +53,6 @@ const LoginComponent = () => {
         e.preventDefault();
         if (!validate()) return;
         if (isRegister) {
-            // Set user name and email in context (combine first and last name)
             userDispatch({
                 type: USER_ACTION.SET_USER_NAME,
                 payload: { name: `${registerData.firstName} ${registerData.lastName}`.trim() }
@@ -55,7 +62,7 @@ const LoginComponent = () => {
                 payload: { email: registerData.email }
             });
             userDispatch({ type: USER_ACTION.LOGIN });
-            navigate("/");
+            if (!hideRedirect) navigate("/");
         } else {
             userDispatch({
                 type: USER_ACTION.SET_USER_NAME,
@@ -66,7 +73,7 @@ const LoginComponent = () => {
                 payload: { email: loginData.email }
             });
             userDispatch({ type: USER_ACTION.LOGIN });
-            navigate("/");
+            if (!hideRedirect) navigate("/");
         }
     };
 
