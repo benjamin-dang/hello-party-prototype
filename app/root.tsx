@@ -15,6 +15,7 @@ import Header from "./Components/Header";
 import Footer from "./Components/Footer";
 import StepperProvider from "./ContextStore/ContextProvider/StepperProvider";
 import SurveryProvider from "./ContextStore/ContextProvider/SurveyProvider";
+import UserProvider from "./ContextStore/ContextProvider/UserProvider";
 
 export const links: Route.LinksFunction = () => [
   {
@@ -45,16 +46,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body style={{ backgroundColor: '#FEFDF9' }}>
-        <StepperProvider>
-          <SurveryProvider>
-            <CssBaseline />
-            <Header />
-            <PageContainer>
-              {children}
-            </PageContainer>
-            <Footer />
-          </SurveryProvider>
-        </StepperProvider>
+        <UserProvider>
+          <StepperProvider>
+            <SurveryProvider>
+              <CssBaseline />
+              <Header />
+              <PageContainer>
+                {children}
+              </PageContainer>
+              <Footer />
+            </SurveryProvider>
+          </StepperProvider>
+        </UserProvider>
         <ScrollRestoration />
         <Scripts />
       </body>

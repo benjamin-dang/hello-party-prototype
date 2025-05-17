@@ -1,4 +1,4 @@
-import { AppBar, Container, Grid, Toolbar, Box, Button, Step } from "@mui/material"
+import { AppBar, Container, Grid, Toolbar, Box, Button, Step, Menu, MenuItem } from "@mui/material"
 
 import CustomStepper from "~/Components/CustomStepper"
 import CelebrationIcon from '@mui/icons-material/Celebration';
@@ -6,11 +6,14 @@ import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 
 import { NavLink, useLocation, useMatch } from "react-router"
-import { useState } from "react";
+import { use, useState } from "react";
 
 import { useContext } from "react";
 import { StepperContext } from "~/ContextStore/ContextProvider/StepperProvider";
 import { STEPPER_ACTIONS } from "~/ContextStore/Reducers/StepperReducer";
+
+import { UserContext } from "~/ContextStore/ContextProvider/UserProvider";
+import { USER_ACTION } from "~/ContextStore/Reducers/UserReducer";
 
 const routes = [
     {
@@ -27,6 +30,8 @@ const routes = [
 
     },
 ]
+
+//Back set statt back box
 
 
 const Navigation = ({ routes }) => {
@@ -46,15 +51,74 @@ const Navigation = ({ routes }) => {
 }
 
 const LoginButton = () => {
-    return (
-        <Grid justifySelf={'flex-end'} sx={{ marginLeft: 'auto' }} >
-            <Button variant="outlined" sx={{ px: 4, color: 'black', borderColor: 'black', '&:hover': { backgroundColor: 'black', color: 'white' } }}>
-                Login
-            </Button>
-        </Grid>
-    )
-}
+    const { user, userDispatch } = useContext(UserContext);
+    const { name, email, isLoggedIn } = user;
+    const [anchorEl, setAnchorEl] = useState(null);
 
+    const handleMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleLogout = () => {
+        userDispatch({ type: USER_ACTION.LOGOUT });
+        handleMenuClose();
+    };
+
+    const handleAccount = () => {
+        // Navigate to account page or open dialog
+        handleMenuClose();
+    };
+
+    return (
+        <Grid justifySelf={'flex-end'} sx={{ marginLeft: 'auto' }}>
+            {isLoggedIn ? (
+                <>
+                    <Button
+                        variant="outlined"
+                        sx={{ px: 4, color: 'black', borderColor: 'black', '&:hover': { backgroundColor: 'black', color: 'white' } }}
+                        onClick={handleMenuOpen}
+                        aria-controls={anchorEl ? 'user-menu' : undefined}
+                        aria-haspopup="true"
+                    >
+                        {name || email}
+                    </Button>
+                    <Menu
+                        id="user-menu"
+                        anchorEl={anchorEl}
+                        open={Boolean(anchorEl)}
+                        onClose={handleMenuClose}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        disableScrollLock
+                        PaperProps={{
+                            sx: {
+                                minWidth: anchorEl ? anchorEl.offsetWidth : undefined,
+                            }
+                        }}
+                    >
+                        <MenuItem onClick={handleAccount}>Kontoverwaltung</MenuItem>
+                        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                </>
+            ) : (
+                <NavLink to={'/login'} style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <Button variant="outlined" sx={{ px: 4, color: 'black', borderColor: 'black', '&:hover': { backgroundColor: 'black', color: 'white' } }}>
+                        Login
+                    </Button>
+                </NavLink>
+            )}
+        </Grid>
+    );
+};
 
 const Header = () => {
 

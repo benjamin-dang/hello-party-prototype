@@ -25,20 +25,20 @@ const SuccessFullOrder = () => {
                 <CardContent>
                     <Box display="flex" flexDirection="column" alignItems="center" mb={3}>
                         <CheckCircleOutlineIcon color="success" sx={{ fontSize: 60, mb: 1 }} />
-                        <Typography variant="h4" fontWeight="bold" gutterBottom>
+                        <Typography variant="h4" fontWeight="bold" gutterBottom align="center">
                             Vielen Dank für Ihre Bestellung!
                         </Typography>
                         <Typography variant="subtitle1" color="text.secondary" align="center">
                             Ihre Bestellung wurde erfolgreich aufgegeben.<br />
-                            Wir werden Sie in Kürze kontaktieren.
+                            Ihren Bestellstatus können Sie jederzeit in Ihrem Profil einsehen.
                         </Typography>
                     </Box>
                     <Divider sx={{ my: 2 }} />
                     <Typography variant="h5" fontWeight="bold" >
                         Bestelldetails
                     </Typography>
-                    <Grid container spacing={2}>
-                        <Grid size={{ md: 6, xs: 12 }}>
+                    <Grid container spacing={2} justifyContent={"center"} >
+                        <Grid size={{ md: 6, sm: 6, xs: 12 }} >
                             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                                 <ListItem>
                                     <ListItemText
@@ -79,7 +79,7 @@ const SuccessFullOrder = () => {
                             </List>
                         </Grid>
 
-                        <Grid size={{ md: 6, xs: 12 }}>
+                        <Grid size={{ md: 6, sm: 6, xs: 12 }} >
                             <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
                                 <ListItem>
                                     <ListItemText

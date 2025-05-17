@@ -11,7 +11,9 @@ export default [
         route('deine-box', 'OrderPage/DeineBox.tsx'),
         route('bestellung', 'OrderPage/Bestellung.tsx'),
         route('success', 'OrderPage/SuccessFullOrder.tsx')
-    ]
-    ),
+    ]),
+
+    route('login', 'Pages/Login.tsx'),
+
 
 ] satisfies RouteConfig;
