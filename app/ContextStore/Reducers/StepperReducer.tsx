@@ -53,6 +53,8 @@ const StepperReducer = (state, action) => {
                     ? { ...step, checked: true }
                     : step
             );
+        case "RESET_STEPPER":
+            return initialState;
         default:
             return state;
     }

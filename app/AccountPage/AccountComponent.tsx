@@ -1,10 +1,14 @@
-import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText, TextField, IconButton } from "@mui/material";
+import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText, TextField, IconButton, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "~/ContextStore/ContextProvider/UserProvider";
+import { SurveyContext } from "~/ContextStore/ContextProvider/SurveyProvider";
+import { StepperContext } from "~/ContextStore/ContextProvider/StepperProvider";
 import { useNavigate } from "react-router";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import { USER_ACTION } from "~/ContextStore/Reducers/UserReducer";
+import { SURVEY_ACTIONS } from "~/ContextStore/Reducers/SurveyReducer";
+import { STEPPER_ACTIONS } from "~/ContextStore/Reducers/StepperReducer";
 
 
 function TabPanel({ children, value, index }) {
@@ -28,6 +32,8 @@ function TabPanel({ children, value, index }) {
 const AccountComponent = () => {
     const [tab, setTab] = useState(0);
     const { user, userDispatch } = useContext(UserContext);
+    const { dispatch: surveyDispatch } = useContext(SurveyContext);
+    const { dispatch: stepperDispatch } = useContext(StepperContext);
     const navigate = useNavigate();
 
     // Redirect if not logged in
@@ -45,6 +51,8 @@ const AccountComponent = () => {
         phone: user.phone || "",
         address: user.address || "",
     });
+
+    const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
     useEffect(() => {
         // Keep local state in sync if user changes (e.g. after login)
@@ -71,6 +79,24 @@ const AccountComponent = () => {
         userDispatch({ type: USER_ACTION.SET_USER_PHONE, payload: { phone: editValues.phone } });
         userDispatch({ type: USER_ACTION.SET_USER_ADDRESS, payload: { address: editValues.address } });
         setEditMode(false);
+    };
+
+    const handleDeleteAccount = () => {
+        // Clear user state
+        userDispatch({ type: USER_ACTION.LOGOUT });
+        userDispatch({ type: USER_ACTION.SET_USER_NAME, payload: { name: "" } });
+        userDispatch({ type: USER_ACTION.SET_USER_EMAIL, payload: { email: "" } });
+        userDispatch({ type: USER_ACTION.SET_USER_PHONE, payload: { phone: "" } });
+        userDispatch({ type: USER_ACTION.SET_USER_ADDRESS, payload: { address: "" } });
+
+        // Clear survey state
+        surveyDispatch({ type: "RESET_SURVEY" }); // You need to implement this action in your SurveyReducer
+
+        // Clear stepper state
+        stepperDispatch({ type: "RESET_STEPPER" }); // You need to implement this action in your StepperReducer
+
+        setDeleteDialogOpen(false);
+        navigate("/"); // Optional: redirect to home
     };
 
     return (
@@ -209,6 +235,42 @@ const AccountComponent = () => {
                                 )}
                             </ListItem>
                         </List>
+                        <>
+                            <Box mt={4} display="flex" justifyContent="flex-end">
+                                <Button
+                                    variant="outlined"
+                                    color="error"
+                                    onClick={() => setDeleteDialogOpen(true)}
+                                >
+                                    Konto löschen
+                                </Button>
+                            </Box>
+                            <Dialog
+                                open={deleteDialogOpen}
+                                onClose={() => setDeleteDialogOpen(false)}
+                            >
+                                <DialogTitle color="error">Konto wirklich löschen?</DialogTitle>
+                                <DialogContent>
+                                    <DialogContentText>
+                                        Achtung: Diese Aktion kann nicht rückgängig gemacht werden.<br />
+                                        Dein Konto und alle gespeicherten Daten werden dauerhaft gelöscht.<br /><br />
+                                        Bist du sicher, dass du dein Konto löschen möchtest?
+                                    </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button onClick={() => setDeleteDialogOpen(false)}>
+                                        Abbrechen
+                                    </Button>
+                                    <Button
+                                        onClick={handleDeleteAccount}
+                                        color="error"
+                                        variant="contained"
+                                    >
+                                        Ja, Konto löschen
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+                        </>
                     </TabPanel>
                     <TabPanel value={tab} index={1}>
                         <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: 'black' }}>

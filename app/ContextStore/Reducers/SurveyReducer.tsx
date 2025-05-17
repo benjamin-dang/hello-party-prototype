@@ -257,6 +257,8 @@ const SurveyReducer = (state, action) => {
                     ...action.payload
                 }
             };
+        case "RESET_SURVEY":
+            return initialSurveyState;
         default:
             return state;
     }
