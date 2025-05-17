@@ -45,14 +45,27 @@ const LoginComponent = () => {
         e.preventDefault();
         if (!validate()) return;
         if (isRegister) {
-            // Registration logic here
-            // userDispatch({ type: USER_ACTION.REGISTER, payload: registerData })
-        } else {
-            // Set user name and email in context
-            userDispatch({ type: USER_ACTION.SET_USER_NAME, payload: { name: loginData.email.split("@")[0] } });
-            userDispatch({ type: USER_ACTION.SET_USER_EMAIL, payload: { email: loginData.email } });
+            // Set user name and email in context (combine first and last name)
+            userDispatch({
+                type: USER_ACTION.SET_USER_NAME,
+                payload: { name: `${registerData.firstName} ${registerData.lastName}`.trim() }
+            });
+            userDispatch({
+                type: USER_ACTION.SET_USER_EMAIL,
+                payload: { email: registerData.email }
+            });
             userDispatch({ type: USER_ACTION.LOGIN });
-            // Navigate to homepage
+            navigate("/");
+        } else {
+            userDispatch({
+                type: USER_ACTION.SET_USER_NAME,
+                payload: { name: loginData.email.split("@")[0] }
+            });
+            userDispatch({
+                type: USER_ACTION.SET_USER_EMAIL,
+                payload: { email: loginData.email }
+            });
+            userDispatch({ type: USER_ACTION.LOGIN });
             navigate("/");
         }
     };

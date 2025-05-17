@@ -39,25 +39,13 @@ export const UserReducer = (state, action) => {
                 user: action.payload.user,
             };
         case USER_ACTION.SET_USER_NAME:
-            return {
-                ...state,
-                name: action.payload.name,
-            };
+            return { ...state, name: action.payload.name };
         case USER_ACTION.SET_USER_EMAIL:
-            return {
-                ...state,
-                email: action.payload.email,
-            };
+            return { ...state, email: action.payload.email };
         case USER_ACTION.SET_USER_PHONE:
-            return {
-                ...state,
-                user: { ...state.user, phone: action.payload.phone },
-            };
+            return { ...state, phone: action.payload.phone };
         case USER_ACTION.SET_USER_ADDRESS:
-            return {
-                ...state,
-                user: { ...state.user, address: action.payload.address },
-            };
+            return { ...state, address: action.payload.address };
 
         default:
             return state;

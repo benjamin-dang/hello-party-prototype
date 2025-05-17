@@ -1,6 +1,10 @@
-import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText } from "@mui/material";
-import { useState, useContext } from "react";
+import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText, TextField, IconButton } from "@mui/material";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "~/ContextStore/ContextProvider/UserProvider";
+import { useNavigate } from "react-router";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import { USER_ACTION } from "~/ContextStore/Reducers/UserReducer";
 
 
 function TabPanel({ children, value, index }) {
@@ -23,10 +27,50 @@ function TabPanel({ children, value, index }) {
 
 const AccountComponent = () => {
     const [tab, setTab] = useState(0);
-    const { user } = useContext(UserContext);
+    const { user, userDispatch } = useContext(UserContext);
+    const navigate = useNavigate();
+
+    // Redirect if not logged in
+    useEffect(() => {
+        if (!user?.isLoggedIn) {
+            navigate("/login");
+        }
+    }, [user, navigate]);
+
+    // Add local state for editing
+    const [editMode, setEditMode] = useState(false);
+    const [editValues, setEditValues] = useState({
+        name: user.name || "",
+        email: user.email || "",
+        phone: user.phone || "",
+        address: user.address || "",
+    });
+
+    useEffect(() => {
+        // Keep local state in sync if user changes (e.g. after login)
+        setEditValues({
+            name: user.name || "",
+            email: user.email || "",
+            phone: user.phone || "",
+            address: user.address || "",
+        });
+    }, [user]);
 
     const handleTabChange = (event, newValue) => {
         setTab(newValue);
+    };
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditValues((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleSave = () => {
+        userDispatch({ type: USER_ACTION.SET_USER_NAME, payload: { name: editValues.name } });
+        userDispatch({ type: USER_ACTION.SET_USER_EMAIL, payload: { email: editValues.email } });
+        userDispatch({ type: USER_ACTION.SET_USER_PHONE, payload: { phone: editValues.phone } });
+        userDispatch({ type: USER_ACTION.SET_USER_ADDRESS, payload: { address: editValues.address } });
+        setEditMode(false);
     };
 
     return (
@@ -92,21 +136,77 @@ const AccountComponent = () => {
                 </Box>
                 <Box sx={{ flexGrow: 1, bgcolor: 'white', minHeight: 420 }}>
                     <TabPanel value={tab} index={0}>
-                        <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: 'black' }}>
-                            Kontoverwaltung
-                        </Typography>
+                        <Box display="flex" alignItems="center" mb={2}>
+                            <Typography variant="h5" fontWeight="bold" sx={{ color: 'black', flexGrow: 1 }}>
+                                Kontoverwaltung
+                            </Typography>
+                            <IconButton
+                                color={editMode ? "primary" : "default"}
+                                onClick={() => {
+                                    if (editMode) handleSave();
+                                    else setEditMode(true);
+                                }}
+                                sx={{ ml: 2 }}
+                            >
+                                {editMode ? <SaveIcon /> : <EditIcon />}
+                            </IconButton>
+                        </Box>
                         <List>
                             <ListItem>
-                                <ListItemText primary="Name" secondary={user.name || "-"} />
+                                {editMode ? (
+                                    <TextField
+                                        label="Name"
+                                        name="name"
+                                        value={editValues.name}
+                                        onChange={handleEditChange}
+                                        fullWidth
+                                        size="small"
+                                    />
+                                ) : (
+                                    <ListItemText primary="Name" secondary={user.name || "-"} />
+                                )}
                             </ListItem>
                             <ListItem>
-                                <ListItemText primary="E-Mail" secondary={user.email || "-"} />
+                                {editMode ? (
+                                    <TextField
+                                        label="E-Mail"
+                                        name="email"
+                                        value={editValues.email}
+                                        onChange={handleEditChange}
+                                        fullWidth
+                                        size="small"
+                                    />
+                                ) : (
+                                    <ListItemText primary="E-Mail" secondary={user.email || "-"} />
+                                )}
                             </ListItem>
                             <ListItem>
-                                <ListItemText primary="Telefon" secondary={user.phone || "-"} />
+                                {editMode ? (
+                                    <TextField
+                                        label="Telefon"
+                                        name="phone"
+                                        value={editValues.phone}
+                                        onChange={handleEditChange}
+                                        fullWidth
+                                        size="small"
+                                    />
+                                ) : (
+                                    <ListItemText primary="Telefon" secondary={user.phone || "-"} />
+                                )}
                             </ListItem>
                             <ListItem>
-                                <ListItemText primary="Adresse" secondary={user.address || "-"} />
+                                {editMode ? (
+                                    <TextField
+                                        label="Adresse"
+                                        name="address"
+                                        value={editValues.address}
+                                        onChange={handleEditChange}
+                                        fullWidth
+                                        size="small"
+                                    />
+                                ) : (
+                                    <ListItemText primary="Adresse" secondary={user.address || "-"} />
+                                )}
                             </ListItem>
                         </List>
                     </TabPanel>
