@@ -1,4 +1,5 @@
 import { AppBar, Container, Grid, Toolbar, Box, Button, Step, Menu, MenuItem } from "@mui/material"
+import { useNavigate } from "react-router";
 
 import CustomStepper from "~/Components/CustomStepper"
 import CelebrationIcon from '@mui/icons-material/Celebration';
@@ -54,6 +55,7 @@ const LoginButton = () => {
     const { user, userDispatch } = useContext(UserContext);
     const { name, email, isLoggedIn } = user;
     const [anchorEl, setAnchorEl] = useState(null);
+    const navigate = useNavigate(); // Add this line
 
     const handleMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -68,8 +70,8 @@ const LoginButton = () => {
     };
 
     const handleAccount = () => {
-        // Navigate to account page or open dialog
         handleMenuClose();
+        navigate("/account"); // Navigate to /account
     };
 
     return (
