@@ -1,4 +1,5 @@
-import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText, TextField, IconButton, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Drawer, Divider } from "@mui/material";
+import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText, TextField, IconButton, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Drawer, Divider, Snackbar } from "@mui/material";
+import MuiAlert from "@mui/material/Alert";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "~/ContextStore/ContextProvider/UserProvider";
 import { SurveyContext } from "~/ContextStore/ContextProvider/SurveyProvider";
@@ -61,6 +62,7 @@ const AccountComponent = () => {
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     useEffect(() => {
         // Keep local state in sync if user changes (e.g. after login)
@@ -90,6 +92,14 @@ const AccountComponent = () => {
     };
 
     const handleDeleteAccount = () => {
+        // Prevent deletion if there are in-progress orders
+        const hasInProgress = orderHistory.orders?.some(order => order.orderStatus === "in progress");
+        if (hasInProgress) {
+            setSnackbarOpen(true);
+            setDeleteDialogOpen(false);
+            return;
+        }
+
         // Clear user state
         userDispatch({ type: USER_ACTION.LOGOUT });
         userDispatch({ type: USER_ACTION.SET_USER_NAME, payload: { name: "" } });
@@ -98,13 +108,27 @@ const AccountComponent = () => {
         userDispatch({ type: USER_ACTION.SET_USER_ADDRESS, payload: { address: "" } });
 
         // Clear survey state
-        surveyDispatch({ type: "RESET_SURVEY" }); // You need to implement this action in your SurveyReducer
+        surveyDispatch({ type: "RESET_SURVEY" });
 
         // Clear stepper state
-        stepperDispatch({ type: "RESET_STEPPER" }); // You need to implement this action in your StepperReducer
+        stepperDispatch({ type: "RESET_STEPPER" });
 
         setDeleteDialogOpen(false);
-        navigate("/"); // Optional: redirect to home
+        navigate("/");
+    };
+
+    // 1. Hilfsfunktion für die Anzeige des Status-Labels
+    const getOrderStatusLabel = (status) => {
+        switch (status) {
+            case "in progress":
+                return "In Bearbeitung";
+            case "completed":
+                return "Ausgeliefert";
+            case "cancelled":
+                return "Storniert";
+            default:
+                return status || "Unbekannt";
+        }
     };
 
     return (
@@ -312,7 +336,6 @@ const AccountComponent = () => {
                                                                     : "#333",
                                                         }}
                                                     >
-                                                        {/* Always show the dot and status */}
                                                         <span style={{
                                                             color:
                                                                 order.orderStatus === "in progress"
@@ -324,7 +347,7 @@ const AccountComponent = () => {
                                                                     : "#333",
                                                             marginLeft: 6
                                                         }}>
-                                                            ● {order.orderStatus || "Unbekannt"}
+                                                            ● {getOrderStatusLabel(order.orderStatus)}
                                                         </span>
                                                     </span>
                                                 </span>
@@ -382,7 +405,7 @@ const AccountComponent = () => {
                                                 mb: 1,
                                             }}
                                         >
-                                            Status: {selectedOrder.orderStatus}
+                                            Status: {getOrderStatusLabel(selectedOrder.orderStatus)}
                                         </Typography>
                                         <Typography>Datum: {new Date(selectedOrder.createdAt).toLocaleString()}</Typography>
                                         <Divider sx={{ my: 2 }} />
@@ -647,6 +670,16 @@ const AccountComponent = () => {
                     
                 </Box>
             </Paper>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={4000}
+                onClose={() => setSnackbarOpen(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <MuiAlert onClose={() => setSnackbarOpen(false)} severity="warning" elevation={6} variant="filled">
+                    Du kannst dein Konto nicht löschen, solange Bestellungen im Status "In Bearbeitung" sind.
+                </MuiAlert>
+            </Snackbar>
         </Container>
     );
 };
