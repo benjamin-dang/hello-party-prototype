@@ -8,17 +8,15 @@ import { useEffect, useRef, useState } from "react";
 
 
 const defaultContent = {
-    heading: 'Deine Box, für deinen Anlass personalisiert',
-    subheading: 'Passnder Inhalt für jedes Event, damit du immer die richtige Wahl triffst',
+    heading: 'Deine Eventbox – individuell für dein Event',
+    subheading: 'Wähle aus verschiedenen Themenboxen und finde die perfekte Box für jeden Anlass. Mit HelloParty wird jedes Event besonders!',
 }
 
 const defaultGalaryCardContent = {
     img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/decorating.png',   
-    heading: 'Dekor und Zubehör',
-    text: '\„You can\'t just eat good food. You\'ve got to talk about it too.\" Ich war so dankbar und happy gestern, als der Postbote mit der HelloFresh Box mit 3 leckeren Rezepten kam.',
-    profileImg: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/profile-placeholder.png' : '/profile-placeholder.png',   // no default img
-
-
+    heading: 'Dekor & Zubehör',
+    text: '„Die HelloParty Eventbox hat unser Fest wirklich besonders gemacht! Alles war liebevoll zusammengestellt, die Dekoration war wunderschön und es hat an nichts gefehlt. Wir würden jederzeit wieder bestellen – absolute Empfehlung!“',
+    profileImg: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/profile-placeholder.png' : '/profile-placeholder.png',
 }
 
 const defaultGalaryArray = [

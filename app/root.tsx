@@ -9,7 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 
-import { Box, CssBaseline, Container } from "@mui/material";
+import { Box, CssBaseline, Container, Typography } from "@mui/material";
 import PageContainer from "./Components/PageContainer";
 import Header from "./Components/Header";
 import Footer from "./Components/Footer";
@@ -90,15 +90,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
 
   return (
     <main className="pt-16 p-4 container mx-auto">
-      <Container>
-        <h1>{message}</h1>
-        <p>{details}</p>
-        {stack && (
-          <pre className="w-full p-4 overflow-x-auto">
-            <code>{stack}</code>
-          </pre>
-        )}
-      </Container>
+      <Box mt={4} mb={4}>
+        <Typography variant="h5" color="text.secondary" align="center">
+          Diese Seite ist nicht Teil des Prototypen und dient nur als Platzhalter.
+        </Typography>
+      </Box>
 
     </main>
   );

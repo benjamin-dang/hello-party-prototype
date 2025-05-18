@@ -18,8 +18,8 @@ import { USER_ACTION } from "~/ContextStore/Reducers/UserReducer";
 
 const routes = [
     {
-        name: 'Event Boxen',
-        route: '/event-boxen',
+        name: 'Startseite',
+        route: '/',
     },
     {
         name: 'Bestellen',

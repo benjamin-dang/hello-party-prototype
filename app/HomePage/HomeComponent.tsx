@@ -10,67 +10,84 @@ import CallToActionBanner from "./Components/CallToActionBanner";
 import { NavLink } from "react-router";
 
 const CoverText = {
-    heading: 'Welcome to Our Website',
-    subheading: 'Some Text',
-    subtext1: 'Nachhaltige Inhalte & Verpackungen',
-    subtext2: 'Das Perfekte Geschenk für jeden Anlass',
-    buttonText: 'Eventboxe bestellen',
+    heading: 'Willkommen bei HelloParty',
+    subheading: '', // Wird dynamisch getypt
+    subtext1: 'Nachhaltige Eventboxen & Verpackungen',
+    subtext2: 'Das perfekte Geschenk für jeden Anlass',
+    buttonText: 'Eventbox bestellen',
 }
 
 const dynamicTextArray = [
-    'Some Text',
-    'Another Text',
-    'More Text',
-    'Even More Text',
-    'Last Text',
-]
+    'Eventboxen für jeden Anlass',
+    'Individuell & nachhaltig verpackt',
+    'Einfach online bestellen',
+    'Freude verschenken leicht gemacht',
+    'Jetzt entdecken!',
+];
 
-
-
+const TYPING_SPEED = 80;
+const DELETING_SPEED = 40;
+const DELAY_AFTER_WORD = 1200;
 
 const HomeComponent = () => {
-
-    const [dynamicText, setDynamicText] = useState(dynamicTextArray[0]);
+    const [dynamicText, setDynamicText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [growing, setGrowing] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
 
+    useEffect(() => {
+        let timeout: NodeJS.Timeout;
+        const currentWord = dynamicTextArray[currentIndex];
 
-    const changeDynamicText = () => {
-
-
-    }
+        if (!isDeleting && dynamicText.length < currentWord.length) {
+            timeout = setTimeout(() => {
+                setDynamicText(currentWord.slice(0, dynamicText.length + 1));
+            }, TYPING_SPEED);
+        } else if (!isDeleting && dynamicText.length === currentWord.length) {
+            timeout = setTimeout(() => setIsDeleting(true), DELAY_AFTER_WORD);
+        } else if (isDeleting && dynamicText.length > 0) {
+            timeout = setTimeout(() => {
+                setDynamicText(currentWord.slice(0, dynamicText.length - 1));
+            }, DELETING_SPEED);
+        } else if (isDeleting && dynamicText.length === 0) {
+            timeout = setTimeout(() => {
+                setIsDeleting(false);
+                setCurrentIndex((prev) => (prev + 1) % dynamicTextArray.length);
+            }, 400);
+        }
+        return () => clearTimeout(timeout);
+    }, [dynamicText, isDeleting, currentIndex]);
 
     return (
         <>
-            <Box sx={
-                {
-                    height: '640px',
-                    width: '100%',
-                    backgroundImage: 'url(CoverPicture.png)',
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    position: 'relative',
-                }
-            }
-                component={'div'}
-            >
-                <Container sx={
-                    {
-                        position: 'absolute',
-                        top: '45%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        textAlign: 'center',
-                    }
-                }>
+            <Box sx={{
+                height: '640px',
+                width: '100%',
+                backgroundImage: 'url(CoverPicture.png)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                position: 'relative',
+            }}>
+                <Container sx={{
+                    position: 'absolute',
+                    top: '45%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    textAlign: 'center',
+                }}>
                     <Typography variant="h2" fontWeight={'bold'} mb={0} pb={0}>
                         {CoverText.heading}
                     </Typography>
-                    <Typography variant="h2" fontWeight={'bold'} mt={0} sx={{ paddingTop: '-10px' }} gutterBottom>
+                    <Typography
+                        variant="h2"
+                        fontWeight={'bold'}
+                        mt={0}
+                        sx={{ minHeight: '2.5em', mb: -5 }} // mb: 1 sorgt für weniger Abstand nach unten
+                    >
                         {dynamicText}
+                        <span style={{ borderRight: '2px solid #1976d2', marginLeft: 2, animation: 'blink 1s steps(1) infinite' }} />
                     </Typography>
-                    <Typography variant="h5" gutterBottom>
+                    <Typography variant="h5" gutterBottom sx={{ mt: 0 }}>
                         {CoverText.subtext1}
                     </Typography>
                     <Typography variant="h5" mb={5} gutterBottom>
@@ -82,7 +99,6 @@ const HomeComponent = () => {
                         </CustomButton>
                     </NavLink>
                 </Container>
-
             </Box>
             <Container maxWidth={'lg'}>
                 <ContentWithSlider />
@@ -92,6 +108,15 @@ const HomeComponent = () => {
             </Container>
             <ContentWithInstaPosts />
             <CallToActionBanner />
+            <style>
+                {`
+                @keyframes blink {
+                    0% { opacity: 1; }
+                    50% { opacity: 0; }
+                    100% { opacity: 1; }
+                }
+                `}
+            </style>
         </>
     )
 }

@@ -4,10 +4,9 @@ import CustomButton from "../../Components/CustomButton";
 
 const defaultActionData = {
     heading: "Event Boxen",
-    text: 'Iss ausgewogen, spare Zeit und hab die perfekte Lösung für einen entspannten Alltag.',
-    buttonText: 'Event Boxen ansehen',
+    text: 'Entdecke unsere liebevoll zusammengestellten Eventboxen für jeden Anlass. Einfach bestellen, auspacken und gemeinsam feiern – mit HelloParty wird jedes Event zum Highlight!',
+    buttonText: 'Event Boxen bestellen',
 }
-
 const CallToActionBanner = ({ actionData = defaultActionData }) => {
     return (
         <Box
