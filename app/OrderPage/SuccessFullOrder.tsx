@@ -6,11 +6,11 @@ import CakeIcon from '@mui/icons-material/Cake';
 import PersonIcon from '@mui/icons-material/Person';
 import InfoIcon from '@mui/icons-material/Info';
 import EventIcon from '@mui/icons-material/Event';
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { SurveyContext } from "~/ContextStore/ContextProvider/SurveyProvider";
 
 const SuccessFullOrder = () => {
-    const { surveyData } = useContext(SurveyContext);
+    const { surveyData, dispatch } = useContext(SurveyContext);
 
     const selectedEvent = surveyData.eventOptions?.find(opt => opt.selected)?.label || "-";
     const amountOfPeople = surveyData.amountOfPeople || "-";
@@ -18,6 +18,10 @@ const SuccessFullOrder = () => {
     const showBackBox = surveyData.eventBoxWithCake?.find(opt => opt.label === "Ja")?.selected;
     const additionalInfo = surveyData.eventAdditionalInfo || "-";
     const eventLocation = surveyData.eventLocation?.find(opt => opt.selected)?.label || "-";
+
+    useEffect(() => {
+
+    }, [])
 
     return (
         <Container maxWidth="md" sx={{ mt: 1, mb: 4 }}>

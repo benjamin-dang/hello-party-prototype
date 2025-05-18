@@ -1,8 +1,9 @@
-import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText, TextField, IconButton, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { Container, Box, Tabs, Tab, Typography, Paper, List, ListItem, ListItemText, TextField, IconButton, Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Drawer, Divider } from "@mui/material";
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "~/ContextStore/ContextProvider/UserProvider";
 import { SurveyContext } from "~/ContextStore/ContextProvider/SurveyProvider";
 import { StepperContext } from "~/ContextStore/ContextProvider/StepperProvider";
+import { orderContext } from "~/ContextStore/ContextProvider/OrderHistoryProvider";
 import { useNavigate } from "react-router";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
@@ -34,6 +35,7 @@ const AccountComponent = () => {
     const { user, userDispatch } = useContext(UserContext);
     const { dispatch: surveyDispatch } = useContext(SurveyContext);
     const { dispatch: stepperDispatch } = useContext(StepperContext);
+    const { orderHistory, orderDispatch } = useContext(orderContext);
     const navigate = useNavigate();
 
     // Redirect if not logged in
@@ -53,6 +55,8 @@ const AccountComponent = () => {
     });
 
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
 
     useEffect(() => {
         // Keep local state in sync if user changes (e.g. after login)
@@ -276,7 +280,152 @@ const AccountComponent = () => {
                         <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: 'black' }}>
                             Bestellverlauf
                         </Typography>
-                        <Typography color="text.secondary">Hier wird später der Bestellverlauf angezeigt.</Typography>
+                        {orderHistory.orders && orderHistory.orders.length > 0 ? (
+                            <List>
+                                {orderHistory.orders.slice().reverse().map((order, idx) => (
+                                    <ListItem
+                                        button
+                                        key={order.orderNumber}
+                                        onClick={() => {
+                                            setSelectedOrder(order);
+                                            setDrawerOpen(true);
+                                        }}
+                                    >
+                                        <ListItemText
+                                            primary={
+                                                <span>
+                                                    Bestellung #{order.orderNumber}
+                                                    <span
+                                                        style={{
+                                                            marginLeft: 12,
+                                                            fontWeight: 700,
+                                                            color:
+                                                                order.orderStatus === "in progress"
+                                                                    ? "#1976d2"
+                                                                    : order.orderStatus === "completed"
+                                                                    ? "#2e7d32"
+                                                                    : order.orderStatus === "cancelled"
+                                                                    ? "#d32f2f"
+                                                                    : "#333",
+                                                        }}
+                                                    >
+                                                        {/* Always show the dot and status */}
+                                                        <span style={{
+                                                            color:
+                                                                order.orderStatus === "in progress"
+                                                                    ? "#1976d2"
+                                                                    : order.orderStatus === "completed"
+                                                                    ? "#2e7d32"
+                                                                    : order.orderStatus === "cancelled"
+                                                                    ? "#d32f2f"
+                                                                    : "#333",
+                                                            marginLeft: 6
+                                                        }}>
+                                                            ● {order.orderStatus || "Unbekannt"}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            }
+                                            secondary={`Datum: ${new Date(order.createdAt).toLocaleString()}`}
+                                        />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        ) : (
+                            <Typography color="text.secondary">Noch keine Bestellungen vorhanden.</Typography>
+                        )}
+
+                        {/* Drawer for order details */}
+                        <Drawer
+                            anchor="bottom"
+                            open={drawerOpen}
+                            onClose={() => setDrawerOpen(false)}
+                        >
+                            <Box sx={{ p: 3, minHeight: 300 }}>
+                                {selectedOrder && (
+                                    <>
+                                        <Typography variant="h6" gutterBottom>
+                                            Bestellung #{selectedOrder.orderNumber}
+                                        </Typography>
+                                        <Typography
+                                            sx={{
+                                                color:
+                                                    selectedOrder.orderStatus === "in progress"
+                                                        ? "primary.main"
+                                                        : selectedOrder.orderStatus === "completed"
+                                                        ? "success.main"
+                                                        : selectedOrder.orderStatus === "cancelled"
+                                                        ? "error.main"
+                                                        : "text.primary",
+                                                fontWeight: "bold",
+                                                mb: 1,
+                                            }}
+                                        >
+                                            Status: {selectedOrder.orderStatus}
+                                        </Typography>
+                                        <Typography>Datum: {new Date(selectedOrder.createdAt).toLocaleString()}</Typography>
+                                        <Divider sx={{ my: 2 }} />
+                                        <Typography variant="subtitle1" fontWeight="bold">Details:</Typography>
+                                        <List>
+                                            <ListItem>
+                                                <ListItemText primary="Vorname" secondary={selectedOrder.details.address?.vorname || "-"} />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText primary="Nachname" secondary={selectedOrder.details.address?.nachname || "-"} />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText primary="E-Mail" secondary={selectedOrder.details.contact?.email || "-"} />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText primary="Event Box für" secondary={selectedOrder.details.eventOptions?.find(opt => opt.selected)?.label || "-"} />
+                                            </ListItem>
+                                            <ListItem>
+                                                <ListItemText primary="Anzahl der Personen" secondary={selectedOrder.details.amountOfPeople || "-"} />
+                                            </ListItem>
+                                            {/* Add more details as needed */}
+                                        </List>
+                                        <Box mt={2} display="flex" justifyContent="flex-end" gap={2}>
+                                            {selectedOrder.orderStatus === "in progress" && (
+                                                <Button
+                                                    variant="outlined"
+                                                    color="error"
+                                                    onClick={() => {
+                                                        // Update the selected order's status to "cancelled"
+                                                        orderDispatch({
+                                                            type: "UPDATE_ORDER_STATUS",
+                                                            payload: {
+                                                                orderNumber: selectedOrder.orderNumber,
+                                                                newStatus: "cancelled"
+                                                            }
+                                                        });
+                                                        setDrawerOpen(false);
+                                                    }}
+                                                >
+                                                    Bestellung stornieren
+                                                </Button>
+                                            )}
+                                            <Button
+                                                variant="contained"
+                                                color="primary"
+                                                onClick={() => {
+                                                    // Clone the selected order, update status and date, and add to history
+                                                    const newOrder = {
+                                                        ...selectedOrder,
+                                                        orderNumber: `ORD-${Date.now()}-${Math.floor(Math.random() * 10000)}`,
+                                                        orderStatus: "in progress",
+                                                        createdAt: new Date().toISOString(),
+                                                    };
+                                                    orderDispatch({ type: "ADD_ORDER", payload: newOrder });
+                                                    setDrawerOpen(false);
+                                                }}
+                                            >
+                                                Erneut bestellen
+                                            </Button>
+                                        </Box>
+                                    </>
+                                )}
+                            </Box>
+                        </Drawer>
                     </TabPanel>
                     <TabPanel value={tab} index={2}>
                         <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: 'black' }}>

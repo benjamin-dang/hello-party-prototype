@@ -5,6 +5,40 @@ export const STEPPER_ACTIONS = {
     CHECK_STEP: 'CHECK_STEP',
 }
 
+
+import CelebrationIcon from '@mui/icons-material/Celebration';
+import CardGiftcardIcon from '@mui/icons-material/CardGiftcard';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+
+const initialState = [
+    {
+        step: 0,
+        icon: <CelebrationIcon />,
+        label: 'Infos zum Event',
+        checked: false,
+        active: true,
+        url: '/order/infos-zum-event',
+    },
+
+    {
+        step: 1,
+        icon: <CardGiftcardIcon />,
+        label: 'Deine Box',
+        checked: false,
+        active: false,
+        url: '/order/deine-box',
+    },
+
+    {
+        step: 2,
+        icon: <LocalShippingIcon />,
+        label: 'Bestellung',
+        checked: false,
+        active: false,
+        url: '/order/bestellung',
+    }
+]
+
 const StepperReducer = (state, action) => {
     console.log('STEPPER_REDUCER', state, action)
 

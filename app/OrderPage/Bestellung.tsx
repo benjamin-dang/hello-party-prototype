@@ -7,10 +7,13 @@ import { StepperContext } from "../ContextStore/ContextProvider/StepperProvider"
 import { SURVEY_ACTIONS } from "../ContextStore/Reducers/SurveyReducer";
 import { UserContext } from "../ContextStore/ContextProvider/UserProvider";
 import LoginComponent from "~/LoginPage/LoginComponent";
+import { orderContext } from "../ContextStore/ContextProvider/OrderHistoryProvider";
+import { ORDER_HISTORY_ACTIONS } from "../ContextStore/Reducers/OrderHistoryReducer";
 
 const Bestellung = () => {
     const { surveyData, dispatch } = useContext(SurveyContext);
     const { user } = useContext(UserContext);
+    const { orderDispatch } = useContext(orderContext);
     const [loading, setLoading] = useState(false);
     const [loginDialogOpen, setLoginDialogOpen] = useState(false);
     const [postLoginLoader, setPostLoginLoader] = useState(false);
@@ -50,6 +53,24 @@ const Bestellung = () => {
 
     const handleOrder = () => {
         setLoading(true);
+
+        // Generate unique order number
+        const orderNumber = `ORD-${Date.now()}-${Math.floor(Math.random() * 10000)}`;
+
+        // Prepare order data
+        const orderData = {
+            orderNumber,
+            orderStatus: "completed", // could also be "in progress" or "canceled"
+            createdAt: new Date().toISOString(),
+            details: { ...surveyData },
+        };
+
+        // Add order to history
+        orderDispatch({
+            type: ORDER_HISTORY_ACTIONS.ADD_ORDER,
+            payload: orderData,
+        });
+
         setTimeout(() => {
             // Find the current step index
             const currentStepIndex = stepperData.findIndex(step => step.url === location.pathname);
@@ -58,6 +79,9 @@ const Bestellung = () => {
                 type: "CHECK_STEP",
                 payload: { step: currentStepIndex },
             });
+
+            // Clear survey state
+            
             setLoading(false);
             navigate("/order/success");
         }, 3000);
