@@ -60,7 +60,7 @@ const Bestellung = () => {
         // Prepare order data
         const orderData = {
             orderNumber,
-            orderStatus: "completed", // could also be "in progress" or "canceled"
+            orderStatus: "in progress", // could also be "in progress" or "canceled"
             createdAt: new Date().toISOString(),
             details: { ...surveyData },
         };
@@ -81,7 +81,7 @@ const Bestellung = () => {
             });
 
             // Clear survey state
-            
+
             setLoading(false);
             navigate("/order/success");
         }, 3000);
