@@ -7,6 +7,10 @@ import { orderContext } from "~/ContextStore/ContextProvider/OrderHistoryProvide
 import { useNavigate } from "react-router";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Inventory2Icon from "@mui/icons-material/Inventory2";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import CancelIcon from "@mui/icons-material/Cancel";
 import { USER_ACTION } from "~/ContextStore/Reducers/UserReducer";
 import { SURVEY_ACTIONS } from "~/ContextStore/Reducers/SurveyReducer";
 import { STEPPER_ACTIONS } from "~/ContextStore/Reducers/StepperReducer";
@@ -160,8 +164,7 @@ const AccountComponent = () => {
                         }}
                     >
                         <Tab label="Kontoverwaltung" />
-                        <Tab label="Bestellverlauf" />
-                        <Tab label="Bestellstatus" />
+                        <Tab label="Bestellverlauf/-status" />
                     </Tabs>
                 </Box>
                 <Box sx={{ flexGrow: 1, bgcolor: 'white', minHeight: 420 }}>
@@ -278,7 +281,7 @@ const AccountComponent = () => {
                     </TabPanel>
                     <TabPanel value={tab} index={1}>
                         <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: 'black' }}>
-                            Bestellverlauf
+                            Bestellverlauf/-status
                         </Typography>
                         {orderHistory.orders && orderHistory.orders.length > 0 ? (
                             <List>
@@ -340,8 +343,26 @@ const AccountComponent = () => {
                             anchor="bottom"
                             open={drawerOpen}
                             onClose={() => setDrawerOpen(false)}
+                            PaperProps={{
+                                sx: { borderTopLeftRadius: 16, borderTopRightRadius: 16, minHeight: 320 }
+                            }}
                         >
-                            <Box sx={{ p: 3, minHeight: 300 }}>
+                            <Box sx={{ p: 3, minHeight: 300, position: "relative" }}>
+                                {/* Close Button (top right) */}
+                                <IconButton
+                                    aria-label="close"
+                                    onClick={() => setDrawerOpen(false)}
+                                    sx={{
+                                        position: "absolute",
+                                        right: 16,
+                                        top: 16,
+                                        color: "grey.500",
+                                        zIndex: 2
+                                    }}
+                                >
+                                    <CancelIcon />
+                                </IconButton>
+
                                 {selectedOrder && (
                                     <>
                                         <Typography variant="h6" gutterBottom>
@@ -365,6 +386,202 @@ const AccountComponent = () => {
                                         </Typography>
                                         <Typography>Datum: {new Date(selectedOrder.createdAt).toLocaleString()}</Typography>
                                         <Divider sx={{ my: 2 }} />
+
+                                        {/* Visual Stepper with Icons */}
+                                        <Box
+                                            display="flex"
+                                            alignItems="flex-start"
+                                            justifyContent="center"
+                                            mb={3}
+                                            gap={2}
+                                        >
+                                            {/* Step 1 */}
+                                            <Box display="flex" flexDirection="column" alignItems="center" minWidth={120}>
+                                                <Box
+                                                    sx={{
+                                                        width: 56,
+                                                        height: 56,
+                                                        borderRadius: "50%",
+                                                        bgcolor:
+                                                            selectedOrder.orderStatus === "cancelled"
+                                                                ? "error.main"
+                                                                : selectedOrder.orderStatus === "completed"
+                                                                ? "success.main"
+                                                                : "#2e7d32",
+                                                        color: "white",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        fontWeight: "bold",
+                                                        fontSize: 32,
+                                                        mb: 1,
+                                                        boxShadow: 2,
+                                                    }}
+                                                >
+                                                    {selectedOrder.orderStatus === "cancelled" ? (
+                                                        <CancelIcon sx={{ fontSize: 40 }} />
+                                                    ) : (
+                                                        <CheckCircleIcon sx={{ fontSize: 40 }} />
+                                                    )}
+                                                </Box>
+                                                <Typography
+                                                    fontSize={16}
+                                                    fontWeight="bold"
+                                                    color={
+                                                        selectedOrder.orderStatus === "cancelled"
+                                                            ? "error.main"
+                                                            : selectedOrder.orderStatus === "completed"
+                                                            ? "success.main"
+                                                            : "text.primary"
+                                                    }
+                                                    textAlign="center"
+                                                    minHeight={48}
+                                                    display="flex"
+                                                    alignItems="center"
+                                                >
+                                                    Bestellung<br />eingegangen
+                                                </Typography>
+                                            </Box>
+                                            {/* Connector */}
+                                            <Box sx={{
+                                                width: 48,
+                                                height: 4,
+                                                bgcolor:
+                                                    selectedOrder.orderStatus === "cancelled"
+                                                        ? "error.main"
+                                                        : selectedOrder.orderStatus === "completed"
+                                                        ? "success.main"
+                                                        : "primary.main",
+                                                mt: 3.5,
+                                                borderRadius: 2
+                                            }} />
+                                            {/* Step 2 */}
+                                            <Box display="flex" flexDirection="column" alignItems="center" minWidth={120}>
+                                                <Box
+                                                    sx={{
+                                                        width: 56,
+                                                        height: 56,
+                                                        borderRadius: "50%",
+                                                        bgcolor:
+                                                            selectedOrder.orderStatus === "cancelled"
+                                                                ? "error.main"
+                                                                : selectedOrder.orderStatus === "completed"
+                                                                ? "success.main"
+                                                                : selectedOrder.orderStatus === "in progress"
+                                                                ? "primary.main"
+                                                                : "#bdbdbd",
+                                                        color: "white",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        fontWeight: "bold",
+                                                        fontSize: 32,
+                                                        mb: 1,
+                                                        boxShadow: 2,
+                                                        border:
+                                                            selectedOrder.orderStatus === "in progress"
+                                                                ? "4px solid #90caf9"
+                                                                : undefined
+                                                    }}
+                                                >
+                                                    {selectedOrder.orderStatus === "cancelled" ? (
+                                                        <CancelIcon sx={{ fontSize: 40 }} />
+                                                    ) : (
+                                                        <Inventory2Icon sx={{ fontSize: 40 }} />
+                                                    )}
+                                                </Box>
+                                                <Typography
+                                                    fontSize={16}
+                                                    fontWeight="bold"
+                                                    color={
+                                                        selectedOrder.orderStatus === "cancelled"
+                                                            ? "error.main"
+                                                            : selectedOrder.orderStatus === "completed"
+                                                            ? "success.main"
+                                                            : selectedOrder.orderStatus === "in progress"
+                                                            ? "primary.main"
+                                                            : "text.secondary"
+                                                    }
+                                                    textAlign="center"
+                                                    minHeight={48}
+                                                    display="flex"
+                                                    alignItems="center"
+                                                >
+                                                    Box<br />zusammengestellt
+                                                </Typography>
+                                            </Box>
+                                            {/* Connector */}
+                                            <Box sx={{
+                                                width: 48,
+                                                height: 4,
+                                                bgcolor:
+                                                    selectedOrder.orderStatus === "cancelled"
+                                                        ? "error.main"
+                                                        : selectedOrder.orderStatus === "completed"
+                                                        ? "success.main"
+                                                        : "#bdbdbd",
+                                                mt: 3.5,
+                                                borderRadius: 2
+                                            }} />
+                                            {/* Step 3 */}
+                                            <Box display="flex" flexDirection="column" alignItems="center" minWidth={120}>
+                                                <Box
+                                                    sx={{
+                                                        width: 56,
+                                                        height: 56,
+                                                        borderRadius: "50%",
+                                                        bgcolor:
+                                                            selectedOrder.orderStatus === "cancelled"
+                                                                ? "error.main"
+                                                                : selectedOrder.orderStatus === "completed"
+                                                                ? "success.main"
+                                                                : "#bdbdbd",
+                                                        color: "white",
+                                                        display: "flex",
+                                                        alignItems: "center",
+                                                        justifyContent: "center",
+                                                        fontWeight: "bold",
+                                                        fontSize: 32,
+                                                        mb: 1,
+                                                        boxShadow: 2,
+                                                    }}
+                                                >
+                                                    {selectedOrder.orderStatus === "cancelled" ? (
+                                                        <CancelIcon sx={{ fontSize: 40 }} />
+                                                    ) : (
+                                                        <LocalShippingIcon sx={{ fontSize: 40 }} />
+                                                    )}
+                                                </Box>
+                                                <Typography
+                                                    fontSize={16}
+                                                    fontWeight="bold"
+                                                    color={
+                                                        selectedOrder.orderStatus === "cancelled"
+                                                            ? "error.main"
+                                                            : selectedOrder.orderStatus === "completed"
+                                                            ? "success.main"
+                                                            : "text.secondary"
+                                                    }
+                                                    textAlign="center"
+                                                    minHeight={48}
+                                                    display="flex"
+                                                    alignItems="center"
+                                                >
+                                                    Auslieferung
+                                                </Typography>
+                                            </Box>
+                                        </Box>
+
+                                        {/* Cancelled notification */}
+                                        {selectedOrder.orderStatus === "cancelled" && (
+                                            <Box mb={2} p={2} bgcolor="#ffebee" borderRadius={2} display="flex" alignItems="center">
+                                                <CancelIcon color="error" sx={{ mr: 1 }} />
+                                                <Typography color="error.main" fontWeight="bold">
+                                                    Diese Bestellung wurde storniert.
+                                                </Typography>
+                                            </Box>
+                                        )}
+
                                         <Typography variant="subtitle1" fontWeight="bold">Details:</Typography>
                                         <List>
                                             <ListItem>
@@ -427,12 +644,7 @@ const AccountComponent = () => {
                             </Box>
                         </Drawer>
                     </TabPanel>
-                    <TabPanel value={tab} index={2}>
-                        <Typography variant="h5" fontWeight="bold" gutterBottom sx={{ color: 'black' }}>
-                            Bestellstatus
-                        </Typography>
-                        <Typography color="text.secondary">Hier wird später der Bestellstatus angezeigt.</Typography>
-                    </TabPanel>
+                    
                 </Box>
             </Paper>
         </Container>
