@@ -14,6 +14,7 @@ export default [
     ]),
 
     route('login', 'Pages/Login.tsx'),
+    route('faq', 'Pages/FAQPage.tsx'),
 
 
 ] satisfies RouteConfig;

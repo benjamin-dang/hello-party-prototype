@@ -98,13 +98,11 @@ const InfosZumEvent = () => {
                             }}
                             fullWidth
                             id="outlined-number"
-                            label="Number"
+                            label="Anzahl der Personen"
                             type="number"
                             defaultValue={surveyData.amountOfPeople}
                             slotProps={{
-                                inputLabel: {
-                                    shrink: true,
-                                },
+
                             }}
                         />
                     </Grid>

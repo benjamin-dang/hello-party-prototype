@@ -155,7 +155,7 @@ const DeineBox = () => {
                                         <TextField
                                             id="outlined-multiline-static"
                                             label="Anmerkungen"
-
+                                            value={surveyData.eventAdditionalInfo}
                                             multiline
                                             rows={3}
                                             fullWidth

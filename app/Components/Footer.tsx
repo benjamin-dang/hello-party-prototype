@@ -108,12 +108,12 @@ const defaultNavLinkGrid = [
             {
                 type: 'link',
                 name: 'Hilfe-Center',
-                url: '/hilfe-center'
+                url: '/faq'
             },
             {
                 type: 'link',
                 name: 'Finde eine Antwort',
-                url: '/finde-eine-antwort'
+                url: '/faq'
             },
             {
                 type: 'link',
