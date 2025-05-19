@@ -1,9 +1,13 @@
 import { Container, Box, Typography, TextField, Button, Grid, Link } from "@mui/material";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 import { UserContext } from "~/ContextStore/ContextProvider/UserProvider"
 import { USER_ACTION } from "~/ContextStore/Reducers/UserReducer"
+
+const SNACKBAR_KEY = "showLoginSuccessSnackbar";
 
 const LoginComponent = ({
     hideRedirect = false,
@@ -23,6 +27,16 @@ const LoginComponent = ({
         ...initialRegister,
     });
     const [errors, setErrors] = useState({});
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+
+    useEffect(() => {
+        if (window.localStorage.getItem(SNACKBAR_KEY) === "true") {
+            setSnackbarOpen(true);
+            setSnackbarMessage("Benutzer erfolgreich angemeldet oder registriert.");
+            window.localStorage.removeItem(SNACKBAR_KEY);
+        }
+    }, []);
 
     const handleChange = (e, isReg = false) => {
         const { name, value } = e.target;
@@ -62,7 +76,8 @@ const LoginComponent = ({
                 payload: { email: registerData.email }
             });
             userDispatch({ type: USER_ACTION.LOGIN });
-            if (!hideRedirect) navigate("/");
+            window.localStorage.setItem(SNACKBAR_KEY, "true");
+            if (!hideRedirect) navigate("/"); // Redirect zur Home-Seite
         } else {
             userDispatch({
                 type: USER_ACTION.SET_USER_NAME,
@@ -73,7 +88,8 @@ const LoginComponent = ({
                 payload: { email: loginData.email }
             });
             userDispatch({ type: USER_ACTION.LOGIN });
-            if (!hideRedirect) navigate("/");
+            window.localStorage.setItem(SNACKBAR_KEY, "true");
+            if (!hideRedirect) navigate("/"); // Redirect zur Home-Seite
         }
     };
 
@@ -172,6 +188,16 @@ const LoginComponent = ({
                     </Grid>
                 </Grid>
             </Box>
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3500}
+                onClose={() => setSnackbarOpen(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <MuiAlert onClose={() => setSnackbarOpen(false)} severity="success" elevation={6} variant="filled">
+                    {snackbarMessage || "Benutzer erfolgreich angemeldet oder registriert."}
+                </MuiAlert>
+            </Snackbar>
         </Container>
     );
 };

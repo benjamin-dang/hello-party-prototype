@@ -8,6 +8,8 @@ import ContentWithGalery from "./Components/ContentWithGalery";
 import ContentWithInstaPosts from "./Components/ContentWithInstaPosts";
 import CallToActionBanner from "./Components/CallToActionBanner";
 import { NavLink } from "react-router";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const CoverText = {
     heading: 'Willkommen bei HelloParty',
@@ -21,7 +23,6 @@ const dynamicTextArray = [
     'Eventboxen für jeden Anlass',
     'Individuell & nachhaltig verpackt',
     'Einfach online bestellen',
-    'Freude verschenken leicht gemacht',
     'Jetzt entdecken!',
 ];
 
@@ -29,10 +30,13 @@ const TYPING_SPEED = 80;
 const DELETING_SPEED = 40;
 const DELAY_AFTER_WORD = 1200;
 
+const SNACKBAR_KEY = "showLoginSuccessSnackbar";
+
 const HomeComponent = () => {
     const [dynamicText, setDynamicText] = useState('');
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;
@@ -56,6 +60,13 @@ const HomeComponent = () => {
         }
         return () => clearTimeout(timeout);
     }, [dynamicText, isDeleting, currentIndex]);
+
+    useEffect(() => {
+        if (window.localStorage.getItem(SNACKBAR_KEY) === "true") {
+            setSnackbarOpen(true);
+            window.localStorage.removeItem(SNACKBAR_KEY);
+        }
+    }, []);
 
     return (
         <>
@@ -108,6 +119,16 @@ const HomeComponent = () => {
             </Container>
             <ContentWithInstaPosts />
             <CallToActionBanner />
+            <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3500}
+                onClose={() => setSnackbarOpen(false)}
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+                <MuiAlert onClose={() => setSnackbarOpen(false)} severity="success" elevation={6} variant="filled">
+                    Benutzer erfolgreich angemeldet oder registriert.
+                </MuiAlert>
+            </Snackbar>
             <style>
                 {`
                 @keyframes blink {

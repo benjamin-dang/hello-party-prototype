@@ -12,25 +12,60 @@ const defaultContent = {
     subheading: 'Passnder Inhalt für jedes Event, damit du immer die richtige Wahl triffst',
 }
 
-const defaultGalaryCardContent = {
+const defaultGalaryCardContent1 = {
     // img: '/decorating.png',
     img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/decorating.png',    heading: 'Dekor und Zubehör',
     text: 'Pefekt für Geburtstage',
 }
 
+
+const defaultGalaryCardContent2 = {
+    // img: '/decorating.png',
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/event-box.png',    heading: 'Dekor und Zubehör',
+    text: 'Pefekt für Geburtstage',
+}
+
+
+const defaultGalaryCardContent3 = {
+    // img: '/decorating.png',
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/event-box2.png',    heading: 'Dekor und Zubehör',
+    text: 'Pefekt für Geburtstage',
+}
+
+
+const defaultGalaryCardContent4 = {
+    // img: '/decorating.png',
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/event-box3.png',    heading: 'Dekor und Zubehör',
+    text: 'Pefekt für Geburtstage',
+}
+
+
+const defaultGalaryCardContent5 = {
+    // img: '/decorating.png',
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/event-box4.png',    heading: 'Dekor und Zubehör',
+    text: 'Pefekt für Geburtstage',
+}
+
+
+const defaultGalaryCardContent6 = {
+    // img: '/decorating.png',
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/event-box2.png',    heading: 'Dekor und Zubehör',
+    text: 'Pefekt für Geburtstage',
+}
+
 const defaultGalaryArray = [
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
+    defaultGalaryCardContent1,
+    defaultGalaryCardContent2,
+    defaultGalaryCardContent3,
+    defaultGalaryCardContent4,
+    defaultGalaryCardContent5,
+    defaultGalaryCardContent6,
+    defaultGalaryCardContent1,
+    defaultGalaryCardContent2,
 
 ]
 
-const GalaryCard = ({ cardContent = defaultGalaryCardContent }) => {
+const GalaryCard = ({ cardContent = defaultGalaryCardContent1 }) => {
     return (
         <Card sx={{
             position: 'relative',

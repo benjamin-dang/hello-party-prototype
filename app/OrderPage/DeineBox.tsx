@@ -12,7 +12,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const cardContent =
 {
     imgSrc: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/image-placeholder.jpg' :
-        '/image-placeholder.jpg',
+        '/deko-box-with-cupcakes.webp',
     imgAlt: 'Example Box',
 }
 

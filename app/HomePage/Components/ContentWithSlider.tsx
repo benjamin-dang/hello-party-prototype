@@ -8,10 +8,32 @@ const defaultContent = {
 
 const defaultCardContent =
 {
-    heading: 'Event Boxen',
-    text: 'Für jeden Anlass die passende Box, die du ganz einfach online bestellen kannst.',
+    heading: 'Für jeden Anlass',
+    text: 'Nicht nur Geburtstag – finde die perfekte Eventbox für dein Event.',
     imgSrc: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' :
-        'https://images.unsplash.com/photo-1625552187571-7ee60ac43d2b?q=80&w=1819&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        '/box-open2.png',
+    imgAlt: 'Event Boxen',
+    icon: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/gift.png' : '/gift.png',
+    iconAlt: 'Event Boxen Icon',
+}
+
+const defaultCardContent2 =
+{
+    heading: 'Alles drin, was du brauchst',
+    text: 'Von Dekoration bis Zubehör – unsere Boxen sind komplett ausgestattet und sofort einsatzbereit.',
+    imgSrc: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' :
+        '/box-open3.png',
+    imgAlt: 'Event Boxen',
+    icon: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/gift.png' : '/gift.png',
+    iconAlt: 'Event Boxen Icon',
+}
+
+const defaultCardContent3 =
+{
+    heading: 'Schnell & nachhaltig geliefert',
+    text: 'Bestelle bequem online und erhalte deine Eventbox schnell und umweltfreundlich nach Hause.',
+    imgSrc: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' :
+        '/box-open4.png',
     imgAlt: 'Event Boxen',
     icon: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/gift.png' : '/gift.png',
     iconAlt: 'Event Boxen Icon',
@@ -19,8 +41,8 @@ const defaultCardContent =
 
 const defaultCardArray = [
     defaultCardContent,
-    defaultCardContent,
-    defaultCardContent,
+    defaultCardContent2,
+    defaultCardContent3,
 ]
 
 const SliderCard = ({ cardContent = defaultCardContent, size = 4 }) => {

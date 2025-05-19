@@ -13,20 +13,42 @@ const defaultContent = {
 }
 
 const defaultGalaryCardContent = {
-    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/decorating.png',   
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/dinoparty-box-kindergeburtstag.jpg',
     heading: 'Dekor & Zubehör',
     text: '„Die HelloParty Eventbox hat unser Fest wirklich besonders gemacht! Alles war liebevoll zusammengestellt, die Dekoration war wunderschön und es hat an nichts gefehlt. Wir würden jederzeit wieder bestellen – absolute Empfehlung!“',
     profileImg: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/profile-placeholder.png' : '/profile-placeholder.png',
 }
 
+const defaultGalaryCardContent2 = {
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/box-silvester.jpg',
+    heading: 'Dekor & Zubehör',
+    text: '„Die HelloParty Eventbox hat unser Fest wirklich besonders gemacht! Alles war liebevoll zusammengestellt, die Dekoration war wunderschön und es hat an nichts gefehlt. Wir würden jederzeit wieder bestellen – absolute Empfehlung!“',
+    profileImg: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/profile-placeholder.png' : '/profile-placeholder.png',
+}
+
+const defaultGalaryCardContent3 = {
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/deko-box-with-cupcakes.webp',
+    heading: 'Dekor & Zubehör',
+    text: '„Die HelloParty Eventbox hat unser Fest wirklich besonders gemacht! Alles war liebevoll zusammengestellt, die Dekoration war wunderschön und es hat an nichts gefehlt. Wir würden jederzeit wieder bestellen – absolute Empfehlung!“',
+    profileImg: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/profile-placeholder.png' : '/profile-placeholder.png',
+}
+
+const defaultGalaryCardContent4 = {
+    img: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? 'image-placeholder.jpg' : '/box-gender-reveal.webp',
+    heading: 'Dekor & Zubehör',
+    text: '„Die HelloParty Eventbox hat unser Fest wirklich besonders gemacht! Alles war liebevoll zusammengestellt, die Dekoration war wunderschön und es hat an nichts gefehlt. Wir würden jederzeit wieder bestellen – absolute Empfehlung!“',
+    profileImg: (import.meta.env.VITE_USE_PLACEHOLDER_IMAGES == 'true') ? '/profile-placeholder.png' : '/profile-placeholder.png',
+}
+
+
 const defaultGalaryArray = [
     defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
-    defaultGalaryCardContent,
+    defaultGalaryCardContent2,
+    defaultGalaryCardContent3,
+    defaultGalaryCardContent4,
+    defaultGalaryCardContent2,
+    defaultGalaryCardContent3,
+    defaultGalaryCardContent4,
     defaultGalaryCardContent,
 
 ]
@@ -58,7 +80,7 @@ const GalaryCard = ({ cardContent = defaultGalaryCardContent, activeIndex, curre
                 mt: 1.5,
                 mb: 0,
                 width: '340px',
-                opacity: applyStyle.cardOpacity, 
+                opacity: applyStyle.cardOpacity,
             }}
         >
             <Box position={'relative'}>
@@ -109,7 +131,7 @@ const GalaryCard = ({ cardContent = defaultGalaryCardContent, activeIndex, curre
                     pb: 0,
                     px: 0,
                     width: '100%',
-                    opacity: applyStyle.textOpacity, 
+                    opacity: applyStyle.textOpacity,
                 }}
             >
                 <Typography
@@ -133,7 +155,7 @@ const Galary = ({ galaryArray = defaultGalaryArray }) => {
     const scrollToActiveIndex = (index) => {
         if (scrollContainerRef.current) {
             const containerWidth = scrollContainerRef.current.offsetWidth;
-            const cardWidth = 365; 
+            const cardWidth = 365;
             const scrollPosition = index * cardWidth - containerWidth / 2 + cardWidth / 2;
 
             const maxScrollLeft = scrollContainerRef.current.scrollWidth - containerWidth;
