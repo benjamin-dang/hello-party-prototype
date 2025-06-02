@@ -19,12 +19,7 @@ const CoverText = {
     buttonText: 'Eventbox bestellen',
 }
 
-const dynamicTextArray = [
-    'Eventboxen für jeden Anlass',
-    'Individuell & nachhaltig verpackt',
-    'Einfach online bestellen',
-    'Jetzt entdecken!',
-];
+
 
 const TYPING_SPEED = 80;
 const DELETING_SPEED = 40;
@@ -37,6 +32,13 @@ const HomeComponent = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+    const dynamicTextArray = [
+        'Eventboxen für jeden Anlass',
+        'Individuell & nachhaltig verpackt',
+        'Einfach online bestellen',
+        'Jetzt entdecken!',
+    ];
 
     useEffect(() => {
         let timeout: NodeJS.Timeout;

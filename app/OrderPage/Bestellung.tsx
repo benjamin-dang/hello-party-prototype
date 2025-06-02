@@ -193,7 +193,7 @@ const Bestellung = () => {
                             {showBackBox && (
                                 <ListItem disablePadding>
                                     <ListItemText
-                                        primary="Back Box:"
+                                        primary="Backset:"
                                         secondary={
                                             selectedBackery.length > 0
                                                 ? selectedBackery.map(b => b.label).join(", ")

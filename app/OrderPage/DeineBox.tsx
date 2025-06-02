@@ -126,7 +126,7 @@ const DeineBox = () => {
                                                             padding: '11px 23px',
                                                         }
                                                     }} fullWidth>
-                                                    { (surveyData.additionalBackery.filter(item => item.selected).length > 0) ? 'Back Box Ändern ' : 'Back Box Auswählen' }
+                                                    { (surveyData.additionalBackery.filter(item => item.selected).length > 0) ? 'Backset Ändern ' : 'Backset Auswählen' }
                                                 </CustomButton>
                                                 <React.Fragment>
                                                     <Drawer
@@ -202,7 +202,7 @@ export default DeineBox;
 
 const DrawerContent = ({ toggleDrawer }) => {
     const drawerTextcontent = {
-        heading: 'Back Box auswählen',
+        heading: 'Backset auswählen',
         subheading: 'Wähle ganz einfach aus was du magst und wir packen die nötigen zutaten in eine seperate Box.',
     }
     return (

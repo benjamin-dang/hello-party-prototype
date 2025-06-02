@@ -106,7 +106,7 @@ const SuccessFullOrder = () => {
                                 {selectedBackery.length > 0 && (
                                     <ListItem>
                                         <ListItemText
-                                            primary="Back Box"
+                                            primary="Backset"
                                             secondary={selectedBackery.map(b => b.label).join(", ")}
                                         />
                                     </ListItem>

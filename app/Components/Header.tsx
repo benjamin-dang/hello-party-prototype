@@ -32,8 +32,6 @@ const routes = [
     },
 ]
 
-//Back set statt back box
-
 
 const Navigation = ({ routes }) => {
     return (
